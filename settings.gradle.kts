@@ -1,3 +1,5 @@
+import java.net.URI
+
 pluginManagement {
     repositories {
         google {
@@ -16,6 +18,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven{url = URI("https://maven.aliyun.com/repository/jcenter") }
+        maven { url = URI("https://jitpack.io") }
     }
 }
 

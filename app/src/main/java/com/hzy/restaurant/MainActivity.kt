@@ -1,4 +1,4 @@
-package com.hzy.c
+package com.hzy.restaurant
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Restaurant</string>
+    <string name="service_notify_content">点击进入</string>
+    <string name="ble_service_title">蓝牙前台服务</string>
+    <string name="share">共享</string>
+    <string name="export_fail">导出失败!</string>
+    <string name="cancel">取消</string>
+    <string name="ok">确定</string>
+    <string name="loading">加载中...</string>
 </resources>

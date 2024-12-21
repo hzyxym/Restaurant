@@ -15,8 +15,10 @@ cardview = "1.0.0"
 glide = "4.12.0"
 hiltAndroid = "2.51.1"
 hilt = "2.51.1"
-
-
+utilcodex = "1.31.1"
+eventbus = "3.3.1"
+pictureselector = "v3.10.7"
+bigimageviewpager = "androidx-7.3.0"
 
 
 [libraries]
@@ -39,11 +41,16 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVers
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-cardview = { group = "androidx.cardview", name = "cardview", version.ref = "cardview" }
-glide = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
-
-
+utilcodex = { module = "com.blankj:utilcodex", version.ref = "utilcodex" }
+eventbus = { module = "org.greenrobot:eventbus", version.ref = "eventbus" }
+pictureselector = { module = "io.github.lucksiege:pictureselector", version.ref = "pictureselector" }
+compress = { module = "io.github.lucksiege:compress", version.ref = "pictureselector" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "glide" }
+compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
+bigimageviewpager = { module = "com.github.SherlockGougou:BigImageViewPager", version.ref = "bigimageviewpager" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -38,6 +38,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     packaging {
         resources {
@@ -72,9 +73,20 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.glide)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.cardview)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+    //Blankj utils
+    implementation(libs.utilcodex)
+    //Eventbus
+    implementation(libs.eventbus)
+    //兼容不同机型的图片选择框架
+    implementation(libs.pictureselector)
+    implementation(libs.compress)
+    //glide
+    implementation(libs.glide)
+    implementation(libs.okhttp3.integration)
+    implementation(libs.compiler)
+    implementation(libs.bigimageviewpager)
 }

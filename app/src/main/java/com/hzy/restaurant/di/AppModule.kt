@@ -26,12 +26,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideBleDataOperation(): BleDataOperation {
-        return BleDataOperation.instance
-    }
-
-    @Singleton
-    @Provides
     fun getBluetoothManager(@ApplicationContext context: Context): BluetoothManager {
         return context.getSystemService(BluetoothManager::class.java)
     }

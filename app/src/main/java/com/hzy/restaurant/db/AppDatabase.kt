@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.hzy.restaurant.bean.Order
+import com.hzy.restaurant.db.dao.OrderDao
 
 /**
  * Created by hzy in 2024/4/2
@@ -15,6 +16,7 @@ import com.hzy.restaurant.bean.Order
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
+    abstract fun getOrderDao(): OrderDao
 
     companion object {
         @Volatile

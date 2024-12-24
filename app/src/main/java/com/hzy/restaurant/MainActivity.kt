@@ -1,47 +1,27 @@
 package com.hzy.restaurant
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.hzy.restaurant.ui.theme.RestaurantTheme
+import androidx.activity.viewModels
+import com.hzy.restaurant.base.BaseActivity
+import com.hzy.restaurant.databinding.ActivityMainBinding
+import com.hzy.restaurant.mvvm.vm.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            RestaurantTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+@AndroidEntryPoint
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+    private val vm: MainViewModel by viewModels()
+    override fun getViewBinding(): ActivityMainBinding {
+        return ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    override fun initLocal() {
+        super.initLocal()
+        setToolsBarVisible(false)
+
+        binding.button.setOnClickListener {
+            binding.mainLayout.mainMotionLayout.progress = 0f
+            binding.mainLayout.mainMotionLayout.transitionToEnd()
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RestaurantTheme {
-        Greeting("Android")
-    }
 }

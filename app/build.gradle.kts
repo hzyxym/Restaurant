@@ -8,12 +8,13 @@ plugins {
 
 android {
     namespace = "com.hzy.restaurant"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.hzy.restaurant"
         minSdk = 24
-        targetSdk = 35
+        //noinspection OldTargetApi
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 

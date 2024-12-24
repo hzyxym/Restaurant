@@ -47,7 +47,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(statusBarStyle = SystemBarStyle.dark(getCompatColor(R.color.title_bar)))
         rootBinding = BaseActivityBinding.inflate(layoutInflater)

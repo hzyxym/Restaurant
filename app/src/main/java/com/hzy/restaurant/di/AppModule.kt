@@ -1,4 +1,4 @@
-package com.dc.lg_ac012.di
+package com.hzy.restaurant.di
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager

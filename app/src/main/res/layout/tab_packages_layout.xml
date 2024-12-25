@@ -9,7 +9,7 @@
 
     <View
         android:id="@+id/view"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="72dp"
         android:background="@drawable/tab_bg_selected"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
@@ -23,7 +23,7 @@
         android:layout_height="72dp"
         android:gravity="center"
         android:padding="@dimen/dp_10"
-        android:text="@string/main"
+        android:text="@string/packages"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

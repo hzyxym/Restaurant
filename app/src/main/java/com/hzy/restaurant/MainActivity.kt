@@ -17,10 +17,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         super.initLocal()
         setToolsBarVisible(false)
 
-        binding.button.setOnClickListener {
-            binding.mainLayout.mainMotionLayout.progress = 0f
-            binding.mainLayout.mainMotionLayout.transitionToEnd()
-        }
+
     }
 
 

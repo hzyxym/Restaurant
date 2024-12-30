@@ -7,11 +7,12 @@
     android:layout_height="match_parent"
     app:layoutDescription="@xml/tab_main_icon_layout_scene">
 
-    <View
+    <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/view"
-        android:layout_width="80dp"
+        android:layout_width="50dp"
         android:layout_height="72dp"
-        android:background="@drawable/tab_bg_selected"
+        app:altSrc="@drawable/tab_bg_selected"
+        app:srcCompat="@drawable/tab_bg_gray_shape"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"

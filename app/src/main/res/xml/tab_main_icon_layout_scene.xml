@@ -7,12 +7,12 @@
         motion:constraintSetStart="@id/start"
         motion:duration="500">
         <KeyFrameSet>
-            <KeyCycle
-                motion:motionTarget="@+id/textView"
-                motion:framePosition="100"
-                motion:wavePeriod="1"
-                android:translationX="5dp"
-                motion:waveOffset="0dp" />
+<!--            <KeyCycle-->
+<!--                motion:motionTarget="@+id/textView"-->
+<!--                motion:framePosition="50"-->
+<!--                motion:wavePeriod="1"-->
+<!--                android:translationX="5dp"-->
+<!--                motion:waveOffset="0dp" />-->
         </KeyFrameSet>
         <OnClick motion:targetId="@id/textView" />
     </Transition>
@@ -27,21 +27,26 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toTopOf="parent" >
+            motion:layout_constraintTop_toTopOf="parent"
+            android:translationX="-12dp"
+            android:scaleY="1"
+            android:scaleX="1">
             <CustomAttribute
-                motion:attributeName="crossfade"
-                motion:customFloatValue="0" />
+                motion:attributeName="textColor"
+                motion:customColorValue="@color/black" />
         </Constraint>
         <Constraint
             android:id="@+id/view"
             motion:layout_constraintEnd_toEndOf="@+id/textView"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="72dp"
             motion:layout_constraintBottom_toBottomOf="@+id/textView"
             motion:layout_constraintTop_toTopOf="@+id/textView"
             motion:layout_constraintStart_toStartOf="@+id/textView"
-            android:translationX="-80dp">
-
+            android:translationX="-20dp">
+            <CustomAttribute
+                motion:attributeName="crossfade"
+                motion:customFloatValue="0" />
         </Constraint>
     </ConstraintSet>
 
@@ -55,21 +60,27 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toTopOf="parent" >
+            motion:layout_constraintTop_toTopOf="parent"
+            android:translationX="0dp"
+            android:scaleY="1.2"
+            android:scaleX="1.2">
             <CustomAttribute
-                motion:attributeName="crossfade"
-                motion:customFloatValue="1" />
-
+                motion:attributeName="textColor"
+                motion:customColorValue="@color/white" />
         </Constraint>
         <Constraint
             android:id="@+id/view"
             motion:layout_constraintEnd_toEndOf="@+id/textView"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="72dp"
             motion:layout_constraintBottom_toBottomOf="@+id/textView"
             motion:layout_constraintTop_toTopOf="@+id/textView"
             motion:layout_constraintStart_toStartOf="@+id/textView"
             android:translationX="0dp">
+
+            <CustomAttribute
+                motion:attributeName="crossfade"
+                motion:customFloatValue="1" />
         </Constraint>
     </ConstraintSet>
 </MotionScene>

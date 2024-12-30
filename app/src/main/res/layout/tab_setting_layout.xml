@@ -2,7 +2,7 @@
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/packages_motion_layout"
+    android:id="@+id/setting_motion_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutDescription="@xml/tab_main_icon_layout_scene">
@@ -24,7 +24,7 @@
         android:layout_height="72dp"
         android:gravity="center"
         android:padding="@dimen/dp_10"
-        android:text="@string/packages"
+        android:text="@string/setting"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

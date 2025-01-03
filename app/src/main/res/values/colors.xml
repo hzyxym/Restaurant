@@ -9,7 +9,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="dialog_bg">#21363A</color>
-    <color name="title_bar">#1B2730</color>
+    <color name="title_bar">#AB1B2730</color>
     <color name="tab_normal">#CCFFFFFF</color>
     <color name="tab_fill">#4094AF</color>
     <color name="gray">#f1f1f1</color>

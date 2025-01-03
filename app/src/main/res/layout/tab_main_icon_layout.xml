@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/packages_motion_layout"
+    android:id="@+id/main_motion_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutDescription="@xml/tab_main_icon_layout_scene">
 
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/view"
-        android:layout_width="50dp"
-        android:layout_height="72dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
         app:altSrc="@drawable/tab_bg_selected"
         app:srcCompat="@drawable/tab_bg_gray_shape"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
@@ -21,7 +20,7 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="72dp"
+        android:layout_height="50dp"
         android:gravity="center"
         android:padding="@dimen/dp_10"
         android:text="@string/main"

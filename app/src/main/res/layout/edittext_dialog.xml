@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/dialog_corner_bg_shape"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        tools:text="@string/add_category"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_18"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextNumber"
+        android:layout_width="0dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="@dimen/dp_15"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="@dimen/dp_15"
+        android:layout_marginBottom="17dp"
+        android:background="@drawable/dialog_corner_edit_bg"
+        android:hint="@string/please_enter_category"
+        android:maxLength="12"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingEnd="@dimen/dp_20"
+        android:textColor="@color/white"
+        android:textColorHint="@color/deep_gray"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="@dimen/dp_15"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:background="@drawable/tip_dialog_left_selector"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ok"
+        app:layout_constraintEnd_toStartOf="@+id/ok"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ok" />
+
+    <TextView
+        android:id="@+id/ok"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="@dimen/dp_15"
+        android:layout_marginBottom="@dimen/dp_15"
+        android:background="@drawable/theme_button_selector"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="@string/ok"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cancel" />
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:padding="10dp"
+        android:src="@drawable/close_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,6 +36,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.hzy.restaurant.mvvm.view.activity.CategoryManagerActivity" />
     </application>
 
 </manifest>

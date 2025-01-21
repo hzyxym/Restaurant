@@ -27,4 +27,8 @@ object DatabaseModule {
     @Provides
     fun provideOrderDao(appDatabase: AppDatabase) = appDatabase.getOrderDao()
 
+    @Singleton
+    @Provides
+    fun provideCategoryDao(appDatabase: AppDatabase) = appDatabase.getCategoryDao()
+
 }

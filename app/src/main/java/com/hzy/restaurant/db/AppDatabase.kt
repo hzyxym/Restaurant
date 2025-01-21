@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.hzy.restaurant.bean.Category
 import com.hzy.restaurant.bean.Order
+import com.hzy.restaurant.db.dao.CategoryDao
 import com.hzy.restaurant.db.dao.OrderDao
 
 /**
@@ -12,11 +14,12 @@ import com.hzy.restaurant.db.dao.OrderDao
  * description: 数据库
  * */
 @Database(
-    entities = [Order::class],
+    entities = [Order::class, Category::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getOrderDao(): OrderDao
+    abstract fun getCategoryDao(): CategoryDao
 
     companion object {
         @Volatile

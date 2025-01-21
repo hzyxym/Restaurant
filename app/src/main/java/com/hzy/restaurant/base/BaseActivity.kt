@@ -2,6 +2,7 @@ package com.hzy.restaurant.base
 
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -44,11 +45,13 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     private lateinit var mRootLl: FrameLayout
     private var waitDialog: WaitDialog? = null
     private var tipDialog: TipDialog? = null
+    lateinit var config: Configuration
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
 //        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         super.onCreate(savedInstanceState)
+        config = resources.configuration
         enableEdgeToEdge(statusBarStyle = SystemBarStyle.dark(getCompatColor(R.color.title_bar)))
         rootBinding = BaseActivityBinding.inflate(layoutInflater)
         setContentView(rootBinding.root)

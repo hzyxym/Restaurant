@@ -2,6 +2,7 @@ package com.hzy.restaurant.mvvm.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.Transaction
 import com.hzy.restaurant.bean.Category
 import com.hzy.restaurant.db.dao.CategoryDao
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,7 +12,7 @@ import javax.inject.Inject
 
 /**
  * Created by hzy 2025/1/21
- * @Description:
+ * @Description: 分类vm
  */
 @HiltViewModel
 class CategoryVM @Inject constructor(private val categoryDao: CategoryDao) : ViewModel() {
@@ -20,6 +21,9 @@ class CategoryVM @Inject constructor(private val categoryDao: CategoryDao) : Vie
     //添加分类
     fun addCategory(category: Category) {
         viewModelScope.launch(Dispatchers.Default) {
+            if (category.position == -1) {
+                category.position = (categoryDao.getMaxPosition() ?: -1) + 1
+            }
             categoryDao.insert(category)
         }
     }
@@ -28,6 +32,17 @@ class CategoryVM @Inject constructor(private val categoryDao: CategoryDao) : Vie
     fun delCategory(category: Category) {
         viewModelScope.launch(Dispatchers.Default) {
             categoryDao.delete(category)
+        }
+    }
+
+    @Transaction
+    fun updateCategoryPositions(items: List<Category>) {
+        viewModelScope.launch {
+            // 更新数据库中的 position 字段
+            items.forEachIndexed { index, item ->
+                item.position = index
+            }
+            categoryDao.updateCategories(items)
         }
     }
 }

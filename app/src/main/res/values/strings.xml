@@ -14,4 +14,5 @@
     <string name="add_category">添加分类</string>
     <string name="edit_category">编辑分类</string>
     <string name="category_manager">分类管理</string>
+    <string name="product_manager">菜品</string>
 </resources>

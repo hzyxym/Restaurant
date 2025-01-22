@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 /**
  * Created by hzy in 2023/4/3
- * description: ble历史数据module
+ * description: 数据库DAO module
  * */
 @InstallIn(SingletonComponent::class)
 @Module
@@ -30,5 +30,9 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideCategoryDao(appDatabase: AppDatabase) = appDatabase.getCategoryDao()
+
+    @Singleton
+    @Provides
+    fun provideProductDao(appDatabase: AppDatabase) = appDatabase.getProductDao()
 
 }

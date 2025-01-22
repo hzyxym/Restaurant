@@ -6,20 +6,23 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.hzy.restaurant.bean.Category
 import com.hzy.restaurant.bean.Order
+import com.hzy.restaurant.bean.Product
 import com.hzy.restaurant.db.dao.CategoryDao
 import com.hzy.restaurant.db.dao.OrderDao
+import com.hzy.restaurant.db.dao.ProductDao
 
 /**
  * Created by hzy in 2024/4/2
  * description: 数据库
  * */
 @Database(
-    entities = [Order::class, Category::class],
+    entities = [Order::class, Category::class, Product::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getOrderDao(): OrderDao
     abstract fun getCategoryDao(): CategoryDao
+    abstract fun getProductDao(): ProductDao
 
     companion object {
         @Volatile

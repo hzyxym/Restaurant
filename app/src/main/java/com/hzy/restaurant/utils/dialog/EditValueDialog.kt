@@ -2,6 +2,7 @@ package com.hzy.restaurant.utils.dialog
 
 import android.os.Bundle
 import android.text.InputFilter
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,9 +50,10 @@ class EditValueDialog : DialogFragment() {
         dialog?.window?.apply {
             setBackgroundDrawableResource(R.color.transparent)
             setLayout(
-                (resources.displayMetrics.widthPixels * 0.9).toInt(),
+                resources.displayMetrics.widthPixels,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
+            setGravity(Gravity.CENTER_HORIZONTAL)
         }
         arguments?.let {
             defaultValue = it.getString(DEFAULT_VALUE)

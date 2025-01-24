@@ -15,4 +15,18 @@
     <string name="edit_category">编辑分类</string>
     <string name="category_manager">分类管理</string>
     <string name="product_manager">菜品</string>
+    <string name="add">添加</string>
+    <string name="product_name">菜品名称</string>
+    <string name="optional">必填</string>
+    <string name="please_input_product_name">请输入菜品名称</string>
+    <string name="please_input_product_price">请输入菜品售价</string>
+    <string name="add_product">添加菜品</string>
+    <string name="edit_product">编辑菜品</string>
+    <string name="product_price">菜品售价</string>
+    <string name="product_category">菜品分类</string>
+    <string name="select_category">选择分类</string>
+    <string name="sold_out">售罄</string>
+    <string name="is_sold_out">是否售罄</string>
+    <string name="no_product_name">请输入菜名</string>
+    <string name="no_product_price">请输入价格</string>
 </resources>

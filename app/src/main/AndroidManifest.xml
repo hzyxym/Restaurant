@@ -38,6 +38,7 @@
         </activity>
         <activity android:name="com.hzy.restaurant.mvvm.view.activity.CategoryManagerActivity" />
         <activity android:name="com.hzy.restaurant.mvvm.view.activity.ProductActivity" />
+        <activity android:name="com.hzy.restaurant.mvvm.view.activity.AddProductActivity" />
     </application>
 
 </manifest>

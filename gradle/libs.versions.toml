@@ -19,6 +19,7 @@ utilcodex = "1.31.1"
 eventbus = "3.3.1"
 pictureselector = "v3.10.7"
 bigimageviewpager = "androidx-8.2.0"
+kyleduo = "2.1.0"
 
 
 [libraries]
@@ -51,6 +52,7 @@ glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration", version.ref = "glide" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 bigimageviewpager = { module = "com.github.SherlockGougou:BigImageViewPager", version.ref = "bigimageviewpager" }
+switchbutton = { module = "com.kyleduo.switchbutton:library", version.ref = "kyleduo" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

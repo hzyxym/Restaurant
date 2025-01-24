@@ -1,6 +1,7 @@
 package com.hzy.restaurant.mvvm.view.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.Configuration
 import android.view.LayoutInflater
 import android.view.View
@@ -28,13 +29,22 @@ import java.util.Collections
 class CategoryManagerActivity : BaseActivity<ActivityCategoryManagerBinding>() {
     private val vm: CategoryVM by viewModels()
     private val adapter by lazy { CategoryAdapter() }
+    private var isSelectCategory = false
     override fun getViewBinding(): ActivityCategoryManagerBinding {
         return ActivityCategoryManagerBinding.inflate(layoutInflater)
     }
 
     override fun initLocal() {
         super.initLocal()
-        setTitle(getString(R.string.category_manager))
+        isSelectCategory = intent.getBooleanExtra("isSelectCategory", false)
+
+        if (isSelectCategory) {
+            setTitle(getString(R.string.select_category))
+            binding.tvAddCategory.visibility = View.GONE
+        } else {
+            setTitle(getString(R.string.category_manager))
+            binding.tvAddCategory.visibility = View.VISIBLE
+        }
 
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             binding.rvCategory.layoutManager = LinearLayoutManager(this)
@@ -144,7 +154,14 @@ class CategoryManagerActivity : BaseActivity<ActivityCategoryManagerBinding>() {
         override fun onBindViewHolder(holder: CategoryVH, position: Int) {
             holder.bind(category = data[position])
             holder.itemView.setOnClickListener {
-                showCategoryDialog(getString(R.string.edit_category), data[position])
+                if (isSelectCategory) {
+                    val intent = Intent()
+                    intent.putExtra("categoryName", data[position].categoryName)
+                    setResult(RESULT_OK, intent)
+                    this@CategoryManagerActivity.finish()
+                } else {
+                    showCategoryDialog(getString(R.string.edit_category), data[position])
+                }
             }
         }
 
@@ -152,6 +169,12 @@ class CategoryManagerActivity : BaseActivity<ActivityCategoryManagerBinding>() {
             private val binding = ItemBinding.bind(view)
             fun bind(category: Category) {
                 binding.tvContent.text = category.categoryName
+                if (isSelectCategory) {
+                    binding.tvContent.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+                } else {
+                    binding.tvContent.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                        getCompatDrawable(R.drawable.dialog_corner_bg_shape), null)
+                }
             }
         }
     }

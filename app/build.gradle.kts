@@ -90,4 +90,6 @@ dependencies {
     implementation(libs.okhttp3.integration)
     implementation(libs.compiler)
     implementation(libs.bigimageviewpager)
+    // switchButton
+    implementation(libs.switchbutton)
 }

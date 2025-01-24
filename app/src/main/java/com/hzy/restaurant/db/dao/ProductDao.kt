@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.hzy.restaurant.bean.Product
 
 /**
@@ -25,4 +26,10 @@ interface ProductDao {
 
     @Query("SELECT * FROM Product")
     fun getAll(): LiveData<List<Product>>
+
+    @Query("SELECT MAX(position) FROM Product")
+    suspend fun getMaxPosition(): Int?
+
+    @Update
+    suspend fun updateProducts(items: List<Product>)
 }

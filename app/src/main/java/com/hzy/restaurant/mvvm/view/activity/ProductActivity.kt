@@ -196,16 +196,19 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
                 if (product.isSoldOut) binding.tvPrice.paintFlags = binding.tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 binding.tvCategory.visibility = if (product.categoryName?.isNotEmpty() == true) View.VISIBLE else View.GONE
                 binding.tvCategory.text = product.categoryName
-                val daysSpan = StringBuilder()
-                if (product.isMon) daysSpan.append("一")
-                if (product.isTue) daysSpan.append("二")
-                if (product.isWed) daysSpan.append("三")
-                if (product.isThu) daysSpan.append("四")
-                if (product.isFri) daysSpan.append("五")
-                if (product.isSat) daysSpan.append("六")
-                if (product.isSun) daysSpan.append("日")
-                binding.tvDay.visibility = if (daysSpan.isNotEmpty()) View.VISIBLE else View.GONE
-                binding.tvDay.text = daysSpan.toString()
+                val daysStr = StringBuilder()
+                if (product.isMon) daysStr.append("一、")
+                if (product.isTue) daysStr.append("二、")
+                if (product.isWed) daysStr.append("三、")
+                if (product.isThu) daysStr.append("四、")
+                if (product.isFri) daysStr.append("五、")
+                if (product.isSat) daysStr.append("六、")
+                if (product.isSun) daysStr.append("日、")
+                if (daysStr.isNotEmpty()) {
+                    daysStr.deleteCharAt(daysStr.length - 1)
+                }
+                binding.tvDay.visibility = if (daysStr.isNotEmpty()) View.VISIBLE else View.GONE
+                binding.tvDay.text = daysStr.toString()
             }
         }
     }

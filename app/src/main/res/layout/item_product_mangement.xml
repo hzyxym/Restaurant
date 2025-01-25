@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:background="@drawable/dialog_corner_bg_shape"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:layout_marginStart="@dimen/dp_12"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_20"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toTopOf="@+id/tv_price"
+        app:layout_constraintEnd_toStartOf="@+id/tv_category"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/view5"
+        app:layout_constraintTop_toBottomOf="@+id/view5"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="咕肉咕噜肉噜肉咕咕咕肉咕噜肉噜肉咕咕" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:textColor="@color/theme_yellow"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintBottom_toTopOf="@+id/view5"
+        app:layout_constraintStart_toStartOf="@+id/tv_product_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
+        tools:text="￥15.6" />
+
+    <TextView
+        android:id="@+id/tv_sold_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.5"
+        android:layout_marginStart="@dimen/dp_4"
+        android:text="@string/sold_out"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/sp_14"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_price"
+        app:layout_constraintStart_toEndOf="@+id/tv_price"
+        app:layout_constraintTop_toTopOf="@+id/tv_price"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tv_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:padding="@dimen/dp_2"
+        android:background="@drawable/category_shape"
+        android:gravity="center"
+        android:minWidth="40dp"
+        android:textColor="@color/white"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_product_name"
+        app:layout_constraintEnd_toEndOf="@+id/view5"
+        app:layout_constraintTop_toTopOf="@+id/tv_product_name"
+        tools:text="肉" />
+
+    <TextView
+        android:id="@+id/tv_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/day_shape"
+        android:paddingStart="@dimen/dp_4"
+        android:paddingEnd="@dimen/dp_4"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_12"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/view5"
+        app:layout_constraintEnd_toEndOf="@+id/view5"
+        tools:text="一、三、五"
+        tools:visibility="visible" />
+</androidx.constraintlayout.widget.ConstraintLayout>

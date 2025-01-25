@@ -3,7 +3,6 @@ package com.hzy.restaurant.mvvm.vm
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Transaction
-import com.hzy.restaurant.bean.Category
 import com.hzy.restaurant.bean.Product
 import com.hzy.restaurant.db.dao.ProductDao
 import dagger.hilt.android.lifecycle.HiltViewModel

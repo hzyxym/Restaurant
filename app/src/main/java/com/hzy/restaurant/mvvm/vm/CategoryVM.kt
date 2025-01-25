@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.room.Transaction
 import com.hzy.restaurant.bean.Category
 import com.hzy.restaurant.db.dao.CategoryDao
+import com.hzy.restaurant.db.dao.ProductDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,7 +16,10 @@ import javax.inject.Inject
  * @Description: 分类vm
  */
 @HiltViewModel
-class CategoryVM @Inject constructor(private val categoryDao: CategoryDao) : ViewModel() {
+class CategoryVM @Inject constructor(
+    private val categoryDao: CategoryDao,
+    private val productDao: ProductDao
+) : ViewModel() {
     val categoryList = categoryDao.getAll()
 
     //添加分类
@@ -32,6 +36,7 @@ class CategoryVM @Inject constructor(private val categoryDao: CategoryDao) : Vie
     fun delCategory(category: Category) {
         viewModelScope.launch(Dispatchers.Default) {
             categoryDao.delete(category)
+            productDao.setCategoryToNullFor(category.categoryName)
         }
     }
 

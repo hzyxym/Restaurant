@@ -18,13 +18,15 @@
 
     <TextView
         android:id="@+id/tv_add_product"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginStart="@dimen/dp_40"
         android:layout_marginEnd="@dimen/dp_40"
         android:layout_marginBottom="@dimen/dp_20"
         android:background="@drawable/theme_button_selector"
         android:gravity="center"
+        android:paddingStart="@dimen/dp_40"
+        android:paddingEnd="@dimen/dp_40"
         android:text="@string/add_product"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_18"

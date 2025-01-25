@@ -233,7 +233,8 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         if (tipDialog == null) {
             tipDialog = TipDialog(this)
         }
-        tipDialog?.setSureResource(R.drawable.tip_dialog_right_selector)
+//        tipDialog?.setSureResource(R.drawable.tip_dialog_right_selector)
+        tipDialog?.setSureResource(R.drawable.theme_button_selector)
         tipDialog?.setSureTextColor(getCompatColor(R.color.white))
         tipDialog?.setIconVisible(View.GONE)
         tipDialog?.setGravity(Gravity.CENTER_HORIZONTAL)

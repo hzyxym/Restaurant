@@ -75,6 +75,7 @@ class AddProductActivity : BaseActivity<ActivityAddProductBinding>() {
                     )
                 }
                 vm.addProduct(product!!)
+                setResult(RESULT_OK)
                 this.finish()
             }
         }

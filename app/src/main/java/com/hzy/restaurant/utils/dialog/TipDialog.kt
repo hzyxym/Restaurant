@@ -39,7 +39,10 @@ class TipDialog private constructor(context: Context, themeResId: Int) : Dialog(
         cardView = findViewById(R.id.card_view)
         mCancel?.setOnClickListener(this)
         mSure?.setOnClickListener(this)
-        close?.setOnClickListener { dismiss() }
+        close?.setOnClickListener {
+            mListener?.clickCancel()
+            dismiss()
+        }
     }
 
     override fun onClick(v: View) {
@@ -92,6 +95,11 @@ class TipDialog private constructor(context: Context, themeResId: Int) : Dialog(
             message?.visibility = View.VISIBLE
             message?.text = tipMessage
         }
+        return this
+    }
+
+    fun setTipMessageSize(size: Float): TipDialog {
+        message?.textSize = size
         return this
     }
 

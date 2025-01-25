@@ -3,6 +3,7 @@ package com.hzy.restaurant.mvvm.view.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Configuration
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dc.lg_ac012.util.dialog.TipDialog.TipClickListener
 import com.hzy.restaurant.R
 import com.hzy.restaurant.base.BaseActivity
 import com.hzy.restaurant.bean.Category
@@ -40,10 +42,8 @@ class CategoryManagerActivity : BaseActivity<ActivityCategoryManagerBinding>() {
 
         if (isSelectCategory) {
             setTitle(getString(R.string.select_category))
-            binding.tvAddCategory.visibility = View.GONE
         } else {
             setTitle(getString(R.string.category_manager))
-            binding.tvAddCategory.visibility = View.VISIBLE
         }
 
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -56,12 +56,12 @@ class CategoryManagerActivity : BaseActivity<ActivityCategoryManagerBinding>() {
         binding.tvAddCategory.setOnClickListener {
             showCategoryDialog(getString(R.string.add_category), null)
         }
-
         val helper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
         ) {
             private var hasMoved = false // 标记是否发生拖拽
+            private var isPortrait = config.orientation == Configuration.ORIENTATION_PORTRAIT
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -70,9 +70,22 @@ class CategoryManagerActivity : BaseActivity<ActivityCategoryManagerBinding>() {
                 val fromPosition = viewHolder.bindingAdapterPosition
                 val toPosition = target.bindingAdapterPosition
 
-                // 更新内存中的数据顺序
                 val items = adapter.data.toMutableList()
-                Collections.swap(items, fromPosition, toPosition)
+                // 更新内存中的数据顺序
+                if (isPortrait) {
+                    Collections.swap(items, fromPosition, toPosition)
+                } else {
+                    // 数据更新逻辑：移动数据并重新排序
+                    if (fromPosition < toPosition) {
+                        for (i in fromPosition until toPosition) {
+                            Collections.swap(items, i, i + 1)
+                        }
+                    } else {
+                        for (i in fromPosition downTo toPosition + 1) {
+                            Collections.swap(items, i, i - 1)
+                        }
+                    }
+                }
                 adapter.refreshData(items)
                 // 通知适配器更新数据
                 adapter.notifyItemMoved(fromPosition, toPosition)
@@ -85,7 +98,7 @@ class CategoryManagerActivity : BaseActivity<ActivityCategoryManagerBinding>() {
                 // 获取被滑动的 item 的位置
                 val position = viewHolder.bindingAdapterPosition
                 // 删除数据
-                adapter.removeItem(position)
+                showDeleteCategoryDialog(position)
             }
 
             override fun clearView(
@@ -102,6 +115,30 @@ class CategoryManagerActivity : BaseActivity<ActivityCategoryManagerBinding>() {
         })
 
         helper.attachToRecyclerView(binding.rvCategory)
+    }
+
+    /**
+     * 删除分类弹窗
+     */
+    private fun showDeleteCategoryDialog(position: Int) {
+        val dialog = getTipDialog()
+        dialog.show()
+        dialog.setTipTitle(getString(R.string.remind_warn))
+            .setTipMessage(getString(R.string.delete_category_tips, adapter.data[position].categoryName))
+            .setSureText(getString(R.string.ok), R.drawable.tip_dialog_right_selector)
+            .setGravity(Gravity.CENTER_HORIZONTAL)
+            .setTipClickListener(object : TipClickListener() {
+                override fun clickSure() {
+                    super.clickSure()
+                    adapter.removeItem(position)
+                }
+
+                @SuppressLint("NotifyDataSetChanged")
+                override fun clickCancel() {
+                    super.clickCancel()
+                    adapter.notifyDataSetChanged()
+                }
+            })
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -125,7 +162,6 @@ class CategoryManagerActivity : BaseActivity<ActivityCategoryManagerBinding>() {
                         binding.rvCategory.scrollToPosition(adapter.itemCount - 1)
                     }, 100)
                 }
-
             }
             .show(supportFragmentManager, "add_category")
     }
@@ -133,6 +169,7 @@ class CategoryManagerActivity : BaseActivity<ActivityCategoryManagerBinding>() {
     inner class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryVH>() {
         val data: MutableList<Category> = mutableListOf()
 
+        @SuppressLint("NotifyDataSetChanged")
         fun refreshData(categoryList: List<Category>) {
             data.clear()
             data.addAll(categoryList)

@@ -29,4 +29,8 @@
     <string name="is_sold_out">是否售罄</string>
     <string name="no_product_name">请输入菜名</string>
     <string name="no_product_price">请输入价格</string>
+    <string name="delete">删除</string>
+    <string name="delete_category_tips">确认删除分类“%s”？</string>
+    <string name="delete_product_tips">确认删除菜品“%s”？</string>
+    <string name="remind_warn">温馨提示！</string>
 </resources>

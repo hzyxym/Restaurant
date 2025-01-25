@@ -24,7 +24,7 @@ interface ProductDao {
     @Delete
     fun delete(product: Product)
 
-    @Query("SELECT * FROM Product")
+    @Query("SELECT * FROM Product ORDER BY position")
     fun getAll(): LiveData<List<Product>>
 
     @Query("SELECT MAX(position) FROM Product")
@@ -32,4 +32,7 @@ interface ProductDao {
 
     @Update
     suspend fun updateProducts(items: List<Product>)
+
+    @Query("UPDATE Product SET categoryName = NULL WHERE categoryName = :targetCategory")
+    suspend fun setCategoryToNullFor(targetCategory: String)
 }

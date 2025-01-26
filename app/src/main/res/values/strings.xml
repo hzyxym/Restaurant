@@ -10,11 +10,15 @@
     <string name="main">首页</string>
     <string name="packages">套餐</string>
     <string name="setting">设置</string>
+    <string name="printer">打印机</string>
+    <string name="category_manager">分类管理</string>
+    <string name="product_manager">菜品管理</string>
+    <string name="order_management">订单管理</string>
+    <string name="week_product">本周菜谱</string>
+    <string name="fixed_package">固定套餐</string>
     <string name="please_enter_category">请输入分类名称</string>
     <string name="add_category">添加分类</string>
     <string name="edit_category">编辑分类</string>
-    <string name="category_manager">分类管理</string>
-    <string name="product_manager">菜品</string>
     <string name="add">添加</string>
     <string name="product_name">菜品名称</string>
     <string name="optional">必填</string>
@@ -33,4 +37,7 @@
     <string name="delete_category_tips">确认删除分类“%s”？</string>
     <string name="delete_product_tips">确认删除菜品“%s”？</string>
     <string name="remind_warn">温馨提示！</string>
+
+
+
 </resources>

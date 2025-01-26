@@ -5,22 +5,38 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/theme_bg"
     tools:context=".mvvm.view.fragment.main.SettingsFragment"
     tools:ignore="MissingDefaultResource">
+
+    <View
+        android:id="@+id/v_left_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:background="@drawable/dialog_corner_bg_shape"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="@+id/view6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_device" />
 
     <TextView
         android:id="@+id/tv_device"
         android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginTop="@dimen/dp_12"
         android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
         android:paddingStart="@dimen/dp_12"
         android:paddingEnd="@dimen/dp_12"
-        android:text="打印机"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_18"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/printer"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16"
+        app:drawableEndCompat="@drawable/arrow_right"
+        app:layout_constraintEnd_toEndOf="@id/v_left_bg"
+        app:layout_constraintStart_toStartOf="@id/v_left_bg"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -29,9 +45,9 @@
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/dp_12"
         android:layout_marginEnd="@dimen/dp_12"
-        android:background="@color/gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="#1AB3B3B3"
+        app:layout_constraintEnd_toEndOf="@id/v_left_bg"
+        app:layout_constraintStart_toStartOf="@id/v_left_bg"
         app:layout_constraintTop_toBottomOf="@+id/tv_device" />
 
     <TextView
@@ -42,11 +58,12 @@
         android:gravity="center_vertical"
         android:paddingStart="@dimen/dp_12"
         android:paddingEnd="@dimen/dp_12"
-        android:text="分类"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_18"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/category_manager"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16"
+        app:drawableEndCompat="@drawable/arrow_right"
+        app:layout_constraintEnd_toEndOf="@id/v_left_bg"
+        app:layout_constraintStart_toStartOf="@id/v_left_bg"
         app:layout_constraintTop_toBottomOf="@+id/view1" />
 
     <View
@@ -55,9 +72,9 @@
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/dp_12"
         android:layout_marginEnd="@dimen/dp_12"
-        android:background="@color/gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="#1AB3B3B3"
+        app:layout_constraintEnd_toEndOf="@id/v_left_bg"
+        app:layout_constraintStart_toStartOf="@id/v_left_bg"
         app:layout_constraintTop_toBottomOf="@+id/tv_category" />
 
 
@@ -69,11 +86,12 @@
         android:gravity="center_vertical"
         android:paddingStart="@dimen/dp_12"
         android:paddingEnd="@dimen/dp_12"
-        android:text="菜单"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_18"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/product_manager"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16"
+        app:drawableEndCompat="@drawable/arrow_right"
+        app:layout_constraintEnd_toEndOf="@id/v_left_bg"
+        app:layout_constraintStart_toStartOf="@id/v_left_bg"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <View
@@ -82,10 +100,65 @@
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/dp_12"
         android:layout_marginEnd="@dimen/dp_12"
-        android:background="@color/gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="#1AB3B3B3"
+        app:layout_constraintEnd_toEndOf="@id/v_left_bg"
+        app:layout_constraintStart_toStartOf="@id/v_left_bg"
         app:layout_constraintTop_toBottomOf="@+id/tv_menu" />
+
+
+    <TextView
+        android:id="@+id/tv_days"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_12"
+        android:text="@string/week_product"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16"
+        app:drawableEndCompat="@drawable/arrow_right"
+        app:layout_constraintEnd_toEndOf="@id/v_left_bg"
+        app:layout_constraintStart_toStartOf="@id/v_left_bg"
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:background="#1AB3B3B3"
+        app:layout_constraintEnd_toEndOf="@id/v_left_bg"
+        app:layout_constraintStart_toStartOf="@id/v_left_bg"
+        app:layout_constraintTop_toBottomOf="@+id/tv_days" />
+
+    <TextView
+        android:id="@+id/tv_packages"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_12"
+        android:text="@string/fixed_package"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16"
+        app:drawableEndCompat="@drawable/arrow_right"
+        app:layout_constraintEnd_toEndOf="@id/v_left_bg"
+        app:layout_constraintStart_toStartOf="@id/v_left_bg"
+        app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:background="#1AB3B3B3"
+        app:layout_constraintEnd_toEndOf="@id/v_left_bg"
+        app:layout_constraintStart_toStartOf="@id/v_left_bg"
+        app:layout_constraintTop_toBottomOf="@+id/tv_packages" />
 
 
     <TextView
@@ -96,21 +169,22 @@
         android:gravity="center_vertical"
         android:paddingStart="@dimen/dp_12"
         android:paddingEnd="@dimen/dp_12"
-        android:text="订单"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_18"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view3" />
+        android:text="@string/order_management"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16"
+        app:drawableEndCompat="@drawable/arrow_right"
+        app:layout_constraintEnd_toEndOf="@id/v_left_bg"
+        app:layout_constraintStart_toStartOf="@id/v_left_bg"
+        app:layout_constraintTop_toBottomOf="@+id/view5" />
 
     <View
-        android:id="@+id/view4"
+        android:id="@+id/view6"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/dp_12"
         android:layout_marginEnd="@dimen/dp_12"
-        android:background="@color/gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="#1AB3B3B3"
+        app:layout_constraintEnd_toEndOf="@id/v_left_bg"
+        app:layout_constraintStart_toStartOf="@id/v_left_bg"
         app:layout_constraintTop_toBottomOf="@+id/tv_order" />
 </androidx.constraintlayout.widget.ConstraintLayout>

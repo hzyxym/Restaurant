@@ -22,10 +22,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     //初始化导航
     private fun initNav() {
         binding.mainViewPager.initMain(this)
-
         val destination = arrayListOf(binding.mainLayout.mainMotionLayout, binding.packagesLayout.packagesMotionLayout, binding.settingLayout.settingMotionLayout)
-        binding.mainLayout.mainMotionLayout.progress = 1f
-        binding.mainViewPager.setCurrentItem(0, false)
+//        binding.mainLayout.mainMotionLayout.progress = 1f
+        destination[vm.position].progress = 1f
+        binding.mainViewPager.setCurrentItem(vm.position, false)
         destination.forEach { motionLayout ->
             motionLayout.setOnClickListener {
                 destination.forEach {
@@ -33,10 +33,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
                 motionLayout.transitionToEnd()
                 when (motionLayout) {
-                    binding.mainLayout.mainMotionLayout -> binding.mainViewPager.setCurrentItem(0, false)
-                    binding.packagesLayout.packagesMotionLayout -> binding.mainViewPager.setCurrentItem(1, false)
-                    binding.settingLayout.settingMotionLayout -> binding.mainViewPager.setCurrentItem(2, false)
+                    binding.mainLayout.mainMotionLayout -> {
+                        vm.position = 0
+                    }
+                    binding.packagesLayout.packagesMotionLayout -> {
+                        vm.position = 1
+                    }
+                    binding.settingLayout.settingMotionLayout -> {
+                        vm.position = 2
+                    }
                 }
+                binding.mainViewPager.setCurrentItem(vm.position, false)
             }
         }
     }

@@ -15,6 +15,7 @@ import javax.inject.Inject
  * */
 @HiltViewModel
 class MainViewModel @Inject constructor(private val dao: OrderDao) : ViewModel() {
+    var position = 0
     fun insertOrder(order: Order) {
         viewModelScope.launch(Dispatchers.Default) {
             dao.insert(order)

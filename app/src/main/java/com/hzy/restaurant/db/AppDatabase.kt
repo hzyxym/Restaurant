@@ -6,9 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.hzy.restaurant.bean.Category
 import com.hzy.restaurant.bean.Order
+import com.hzy.restaurant.bean.Packages
+import com.hzy.restaurant.bean.PackagesProductListCrossRef
 import com.hzy.restaurant.bean.Product
 import com.hzy.restaurant.db.dao.CategoryDao
 import com.hzy.restaurant.db.dao.OrderDao
+import com.hzy.restaurant.db.dao.PackagesDao
+import com.hzy.restaurant.db.dao.PackagesProductDao
 import com.hzy.restaurant.db.dao.ProductDao
 
 /**
@@ -16,13 +20,15 @@ import com.hzy.restaurant.db.dao.ProductDao
  * description: 数据库
  * */
 @Database(
-    entities = [Order::class, Category::class, Product::class],
+    entities = [Order::class, Category::class, Product::class, Packages::class, PackagesProductListCrossRef::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getOrderDao(): OrderDao
     abstract fun getCategoryDao(): CategoryDao
     abstract fun getProductDao(): ProductDao
+    abstract fun getPackagesDao(): PackagesDao
+    abstract fun getPackagesProductDao(): PackagesProductDao
 
     companion object {
         @Volatile

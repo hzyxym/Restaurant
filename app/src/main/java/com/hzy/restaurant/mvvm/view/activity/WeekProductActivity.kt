@@ -1,13 +1,9 @@
 package com.hzy.restaurant.mvvm.view.activity
 
-import android.content.Intent
-import android.content.res.Configuration
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hzy.restaurant.R
 import com.hzy.restaurant.base.BaseActivity
@@ -15,7 +11,6 @@ import com.hzy.restaurant.bean.Week
 import com.hzy.restaurant.databinding.ActivityWeekProductBinding
 import com.hzy.restaurant.mvvm.view.fragment.setting.WeekProductFragment
 import com.hzy.restaurant.mvvm.vm.ProductVM
-import com.hzy.restaurant.utils.ActivityResultLauncherCompat
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -25,8 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class WeekProductActivity : BaseActivity<ActivityWeekProductBinding>() {
     private val vm by viewModels<ProductVM>()
-    private val launcher =
-        ActivityResultLauncherCompat(this, ActivityResultContracts.StartActivityForResult())
     private val type = listOf(
         Week.Monday,
         Week.Tuesday,

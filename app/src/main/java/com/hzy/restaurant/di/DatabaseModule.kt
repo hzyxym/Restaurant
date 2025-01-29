@@ -35,4 +35,12 @@ object DatabaseModule {
     @Provides
     fun provideProductDao(appDatabase: AppDatabase) = appDatabase.getProductDao()
 
+    @Singleton
+    @Provides
+    fun providePackagesDao(appDatabase: AppDatabase) = appDatabase.getPackagesDao()
+
+    @Singleton
+    @Provides
+    fun providePackagesProductDao(appDatabase: AppDatabase) = appDatabase.getPackagesProductDao()
+
 }

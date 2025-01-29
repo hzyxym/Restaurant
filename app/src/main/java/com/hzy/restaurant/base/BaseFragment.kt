@@ -1,6 +1,7 @@
 package com.hzy.restaurant.base
 
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -34,13 +35,14 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     private var waitDialog: WaitDialog? = null
     protected lateinit var binding: VB
     private lateinit var rootBinding: BaseFragmentBinding
-
+    lateinit var config: Configuration
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        config = resources.configuration
         binding = getViewBinding(inflater, container)
         rootBinding = BaseFragmentBinding.inflate(inflater, container, false)
         mRootLl = rootBinding.rootLl

@@ -7,6 +7,7 @@ import com.hzy.restaurant.base.BaseFragment
 import com.hzy.restaurant.databinding.FragmentSettingsBinding
 import com.hzy.restaurant.mvvm.view.activity.CategoryManagerActivity
 import com.hzy.restaurant.mvvm.view.activity.ProductActivity
+import com.hzy.restaurant.mvvm.view.activity.WeekProductActivity
 
 /**
  * Created by hzy in 2025/1/2
@@ -27,6 +28,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
         binding.tvMenu.setOnClickListener {
             val intent = Intent(requireContext(), ProductActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.tvWeekProduct.setOnClickListener {
+            val intent = Intent(requireContext(), WeekProductActivity::class.java)
             startActivity(intent)
         }
     }

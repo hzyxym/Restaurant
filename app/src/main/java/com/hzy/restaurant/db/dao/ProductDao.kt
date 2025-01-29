@@ -35,4 +35,27 @@ interface ProductDao {
 
     @Query("UPDATE Product SET categoryName = NULL WHERE categoryName = :targetCategory")
     suspend fun setCategoryToNullFor(targetCategory: String)
+
+
+    @Query("SELECT * FROM Product Where isMon = :isEnable ORDER BY position")
+    fun getAllMonDay(isEnable: Boolean): LiveData<List<Product>>
+
+    @Query("SELECT * FROM Product Where isTue = :isEnable ORDER BY position")
+    fun getAllTueDay(isEnable: Boolean): LiveData<List<Product>>
+
+    @Query("SELECT * FROM Product Where isWed = :isEnable ORDER BY position")
+    fun getAllWedDay(isEnable: Boolean): LiveData<List<Product>>
+
+    @Query("SELECT * FROM Product Where isThu = :isEnable ORDER BY position")
+    fun getAllThuDay(isEnable: Boolean): LiveData<List<Product>>
+
+    @Query("SELECT * FROM Product Where isFri = :isEnable ORDER BY position")
+    fun getAllFriDay(isEnable: Boolean): LiveData<List<Product>>
+
+    @Query("SELECT * FROM Product Where isSat = :isEnable ORDER BY position")
+    fun getAllSatDay(isEnable: Boolean): LiveData<List<Product>>
+
+    @Query("SELECT * FROM Product Where isSun = :isEnable ORDER BY position")
+    fun getAllSunDay(isEnable: Boolean): LiveData<List<Product>>
+
 }

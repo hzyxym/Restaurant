@@ -18,6 +18,7 @@ import com.dc.lg_ac012.util.dialog.TipDialog.TipClickListener
 import com.hzy.restaurant.R
 import com.hzy.restaurant.base.BaseActivity
 import com.hzy.restaurant.bean.Product
+import com.hzy.restaurant.bean.Week
 import com.hzy.restaurant.databinding.ActivityProductBinding
 import com.hzy.restaurant.databinding.ItemProductMangementBinding
 import com.hzy.restaurant.mvvm.vm.ProductVM
@@ -35,20 +36,36 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
     private val launcher =
         ActivityResultLauncherCompat(this, ActivityResultContracts.StartActivityForResult())
     private val adapter by lazy { ProductManagerAdapter() }
+    private var type: Week? = null
     override fun getViewBinding(): ActivityProductBinding {
         return ActivityProductBinding.inflate(layoutInflater)
     }
 
     override fun initLocal() {
         super.initLocal()
-        setTitle(getString(R.string.product_manager))
+        type = intent.getSerializableExtra("type") as? Week
+
+        if (type != null) {
+            setTitle(getString(R.string.add_product))
+            binding.tvAddProduct.text = getString(R.string.ok)
+        } else {
+            setTitle(getString(R.string.product_manager))
+            binding.tvAddProduct.text = getString(R.string.add_product)
+        }
+
         binding.tvAddProduct.setOnClickListener {
-            val intent = Intent(this, AddProductActivity::class.java)
-            launcher.launch(intent) { result ->
-                if (result.resultCode == RESULT_OK) {
-                    binding.rvProduct.postDelayed({
-                        binding.rvProduct.scrollToPosition(adapter.itemCount - 1)
-                    }, 100)
+            if (type != null) {
+                val list = adapter.data.filter { getTypeEnable(it, type!!) }
+                vm.updateProduct(list)
+                this.finish()
+            } else {
+                val intent = Intent(this, AddProductActivity::class.java)
+                launcher.launch(intent) { result ->
+                    if (result.resultCode == RESULT_OK) {
+                        binding.rvProduct.postDelayed({
+                            binding.rvProduct.scrollToPosition(adapter.itemCount - 1)
+                        }, 100)
+                    }
                 }
             }
         }
@@ -149,9 +166,16 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
     @SuppressLint("NotifyDataSetChanged")
     override fun createObserver() {
         super.createObserver()
-        vm.productList.observe(this) {
-            adapter.refreshData(it)
-            adapter.notifyDataSetChanged()
+        if (type != null) {
+            vm.getProductDayList(type!!, false).observe(this) {
+                adapter.refreshData(it)
+                adapter.notifyDataSetChanged()
+            }
+        } else {
+            vm.productList.observe(this) {
+                adapter.refreshData(it)
+                adapter.notifyDataSetChanged()
+            }
         }
     }
 
@@ -179,10 +203,15 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
         override fun onBindViewHolder(holder: ProductVH, position: Int) {
             holder.bind(product = data[position])
             holder.itemView.setOnClickListener {
-                val intent = Intent(this@ProductActivity, AddProductActivity::class.java)
-                intent.putExtra("product", data[position])
-                intent.putExtra("isEdit", true)
-                startActivity(intent)
+                if (type != null) {
+                    toggleTypeEnable(data[position], type!!)
+                    this.notifyItemChanged(position)
+                } else {
+                    val intent = Intent(this@ProductActivity, AddProductActivity::class.java)
+                    intent.putExtra("product", data[position])
+                    intent.putExtra("isEdit", true)
+                    startActivity(intent)
+                }
             }
         }
 
@@ -194,7 +223,8 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
                 binding.tvPrice.text = "￥${product.marketPrice}"
                 binding.tvSoldOut.visibility = if (product.isSoldOut) View.VISIBLE else View.GONE
                 if (product.isSoldOut) binding.tvPrice.paintFlags = binding.tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                binding.tvCategory.visibility = if (product.categoryName?.isNotEmpty() == true) View.VISIBLE else View.GONE
+
+                binding.tvCategory.visibility = if (type == null && product.categoryName?.isNotEmpty() == true) View.VISIBLE else View.GONE
                 binding.tvCategory.text = product.categoryName
                 val daysStr = StringBuilder()
                 if (product.isMon) daysStr.append("一、")
@@ -207,9 +237,39 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
                 if (daysStr.isNotEmpty()) {
                     daysStr.deleteCharAt(daysStr.length - 1)
                 }
-                binding.tvDay.visibility = if (daysStr.isNotEmpty()) View.VISIBLE else View.GONE
+                binding.tvDay.visibility = if (type == null && daysStr.isNotEmpty()) View.VISIBLE else View.GONE
                 binding.tvDay.text = daysStr.toString()
+
+                if (type != null) {
+                    binding.ivCheck.visibility = if (getTypeEnable(product, type!!)) View.VISIBLE else View.GONE
+                } else {
+                    binding.ivCheck.visibility = View.GONE
+                }
             }
+        }
+    }
+
+    fun getTypeEnable(product: Product, week: Week): Boolean {
+        return when(week) {
+            Week.Monday -> product.isMon
+            Week.Tuesday -> product.isTue
+            Week.Wednesday -> product.isWed
+            Week.Thursday -> product.isThu
+            Week.Friday -> product.isFri
+            Week.Saturday -> product.isSat
+            Week.Sunday -> product.isSun
+        }
+    }
+
+    fun toggleTypeEnable(product: Product, week: Week) {
+        when(week) {
+            Week.Monday -> product.isMon = !product.isMon
+            Week.Tuesday -> product.isTue = !product.isTue
+            Week.Wednesday -> product.isWed = !product.isWed
+            Week.Thursday -> product.isThu = !product.isThu
+            Week.Friday -> product.isFri = !product.isFri
+            Week.Saturday -> product.isSat = !product.isSat
+            Week.Sunday -> product.isSun = !product.isSun
         }
     }
 }

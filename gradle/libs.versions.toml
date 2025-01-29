@@ -20,6 +20,9 @@ eventbus = "3.3.1"
 pictureselector = "v3.10.7"
 bigimageviewpager = "androidx-8.2.0"
 kyleduo = "2.1.0"
+material = "1.12.0"
+lifecycleViewmodelKtx = "2.8.7"
+navigationFragmentKtx = "2.8.4"
 
 
 [libraries]
@@ -28,6 +31,8 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
@@ -53,6 +58,7 @@ okhttp3-integration = { module = "com.github.bumptech.glide:okhttp3-integration"
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 bigimageviewpager = { module = "com.github.SherlockGougou:BigImageViewPager", version.ref = "bigimageviewpager" }
 switchbutton = { module = "com.kyleduo.switchbutton:library", version.ref = "kyleduo" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

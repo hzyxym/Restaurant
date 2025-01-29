@@ -126,10 +126,10 @@
         app:layout_constraintBottom_toBottomOf="@+id/view6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
-        app:layout_constraintTop_toTopOf="@id/tv_days" />
+        app:layout_constraintTop_toTopOf="@id/tv_week_product" />
 
     <TextView
-        android:id="@+id/tv_days"
+        android:id="@+id/tv_week_product"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="@dimen/dp_12"
@@ -154,7 +154,7 @@
         android:background="#1AB3B3B3"
         app:layout_constraintEnd_toEndOf="@id/v_right_bg"
         app:layout_constraintStart_toStartOf="@id/v_right_bg"
-        app:layout_constraintTop_toBottomOf="@+id/tv_days" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_week_product" />
 
     <TextView
         android:id="@+id/tv_packages"

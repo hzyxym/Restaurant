@@ -36,8 +36,16 @@
     <string name="delete">删除</string>
     <string name="delete_category_tips">确认删除分类“%s”？</string>
     <string name="delete_product_tips">确认删除菜品“%s”？</string>
+    <string name="remove_product_tips">确认移除菜品“%s”？</string>
     <string name="remind_warn">温馨提示！</string>
 
+    <string name="monday">星期一</string>
+    <string name="tuesday">星期二</string>
+    <string name="wednesday">星期三</string>
+    <string name="thursday">星期四</string>
+    <string name="friday">星期五</string>
+    <string name="saturday">星期六</string>
+    <string name="sunday">星期日</string>
 
 
 </resources>

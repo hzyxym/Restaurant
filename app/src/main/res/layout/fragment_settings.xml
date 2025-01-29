@@ -107,7 +107,7 @@
 
 
     <TextView
-        android:id="@+id/tv_days"
+        android:id="@+id/tv_week_product"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:foreground="?android:attr/selectableItemBackground"
@@ -131,7 +131,7 @@
         android:background="#1AB3B3B3"
         app:layout_constraintEnd_toEndOf="@id/v_left_bg"
         app:layout_constraintStart_toStartOf="@id/v_left_bg"
-        app:layout_constraintTop_toBottomOf="@+id/tv_days" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_week_product" />
 
     <TextView
         android:id="@+id/tv_packages"

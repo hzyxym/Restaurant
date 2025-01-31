@@ -95,4 +95,6 @@ dependencies {
     implementation(libs.switchbutton)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
+    //noinspection GradleDependency
+    implementation(libs.gson)
 }

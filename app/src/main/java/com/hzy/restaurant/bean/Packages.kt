@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey
 data class Packages(
     @PrimaryKey(autoGenerate = true) val packagesId: Long = 0,
     @ColumnInfo(name = "packagesName") var packagesName: String,
-    @ColumnInfo(name = "packagesPrice") var packagesPrice: Float,
+    @ColumnInfo(name = "packagesPrice") var packagesPrice: Double,
     @ColumnInfo(name = "packagesSubName") var packagesSubName: String? = null,
     @ColumnInfo(name = "iconPath") var iconPath: String? = null,
     @ColumnInfo(name = "position") var position: Int = 0

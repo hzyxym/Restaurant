@@ -36,14 +36,14 @@ class AddProductActivity : BaseActivity<ActivityAddProductBinding>() {
         }
         if (isEdit) {
             setTitle(getString(R.string.edit_product))
-            binding.tvBinding.text = getString(R.string.ok)
+            binding.tvAdd.text = getString(R.string.ok)
 
             binding.etProductName.setText(product?.productName)
             binding.etProductPrice.setText(product?.marketPrice.toString())
             binding.tvProductCategory.text = product?.categoryName
             binding.isSoldOut.isChecked = product?.isSoldOut ?: false
         } else {
-            binding.tvBinding.text = getString(R.string.add)
+            binding.tvAdd.text = getString(R.string.add)
             setTitle(getString(R.string.add_product))
         }
         binding.tvProductCategory.setOnClickListener {
@@ -54,10 +54,10 @@ class AddProductActivity : BaseActivity<ActivityAddProductBinding>() {
             }
         }
 
-        binding.tvBinding.setOnClickListener {
+        binding.tvAdd.setOnClickListener {
             if (verify()) {
                 val productName = binding.etProductName.text.toString()
-                val productPrice = binding.etProductPrice.text.toString().toFloat()
+                val productPrice = binding.etProductPrice.text.toString().toDouble()
                 val isSoldOut = binding.isSoldOut.isChecked
                 val categoryName = if (binding.tvProductCategory.text.isNotEmpty()) binding.tvProductCategory.text.toString() else null
                 product?.apply {

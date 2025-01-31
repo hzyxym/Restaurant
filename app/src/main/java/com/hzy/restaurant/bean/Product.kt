@@ -1,6 +1,7 @@
 package com.hzy.restaurant.bean
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
@@ -11,7 +12,7 @@ import java.io.Serializable
 @Entity
 data class Product(
     @PrimaryKey var productName: String,
-    var marketPrice: Float,
+    var marketPrice: Double,
     var isSoldOut: Boolean = false,
     var position: Int,
     var categoryName: String? = null,
@@ -23,4 +24,6 @@ data class Product(
     var isFri: Boolean = false,
     var isSat: Boolean = false,
     var isSun: Boolean = false,
-) : Serializable
+) : Serializable {
+    @Ignore var isCheck: Boolean = false
+}

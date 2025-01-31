@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.blankj.utilcode.util.GsonUtils
 import com.dc.lg_ac012.util.dialog.TipDialog.TipClickListener
+import com.google.gson.reflect.TypeToken
 import com.hzy.restaurant.R
 import com.hzy.restaurant.base.BaseActivity
 import com.hzy.restaurant.bean.Product
@@ -37,6 +39,8 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
         ActivityResultLauncherCompat(this, ActivityResultContracts.StartActivityForResult())
     private val adapter by lazy { ProductManagerAdapter() }
     private var type: Week? = null
+    private var isPackages = false
+    private var selectProducts = mutableListOf<Product>()
     override fun getViewBinding(): ActivityProductBinding {
         return ActivityProductBinding.inflate(layoutInflater)
     }
@@ -44,8 +48,14 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
     override fun initLocal() {
         super.initLocal()
         type = intent.getSerializableExtra("type") as? Week
+        isPackages = intent.getBooleanExtra("isPackages", false)
+        if (intent.hasExtra("selectProducts")) {
+            val json = intent.getStringExtra("selectProducts")
+            val typeToken =  object : TypeToken<List<Product>>(){}.type
+            selectProducts.addAll(GsonUtils.fromJson(json, typeToken))
+        }
 
-        if (type != null) {
+        if (type != null || isPackages) {
             setTitle(getString(R.string.add_product))
             binding.tvAddProduct.text = getString(R.string.ok)
         } else {
@@ -57,6 +67,12 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
             if (type != null) {
                 val list = adapter.data.filter { getTypeEnable(it, type!!) }
                 vm.updateProduct(list)
+                this.finish()
+            } else if (isPackages) {
+                val list = adapter.data.filter { it.isCheck }
+                val intent = Intent()
+                intent.putExtra("selectProducts", GsonUtils.toJson(list))
+                setResult(RESULT_OK, intent)
                 this.finish()
             } else {
                 val intent = Intent(this, AddProductActivity::class.java)
@@ -171,6 +187,16 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
                 adapter.refreshData(it)
                 adapter.notifyDataSetChanged()
             }
+        } else if (isPackages) {
+            vm.productList.observe(this) { list ->
+                list.forEach {
+                    if (selectProducts.contains(it)) {
+                        it.isCheck = true
+                    }
+                }
+                adapter.refreshData(list)
+                adapter.notifyDataSetChanged()
+            }
         } else {
             vm.productList.observe(this) {
                 adapter.refreshData(it)
@@ -206,6 +232,10 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
                 if (type != null) {
                     toggleTypeEnable(data[position], type!!)
                     this.notifyItemChanged(position)
+
+                } else if (isPackages) {
+                    data[position].isCheck = !data[position].isCheck
+                    this.notifyItemChanged(position)
                 } else {
                     val intent = Intent(this@ProductActivity, AddProductActivity::class.java)
                     intent.putExtra("product", data[position])
@@ -224,7 +254,7 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
                 binding.tvSoldOut.visibility = if (product.isSoldOut) View.VISIBLE else View.GONE
                 if (product.isSoldOut) binding.tvPrice.paintFlags = binding.tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
-                binding.tvCategory.visibility = if (type == null && product.categoryName?.isNotEmpty() == true) View.VISIBLE else View.GONE
+                binding.tvCategory.visibility = if (type == null && !isPackages && product.categoryName?.isNotEmpty() == true) View.VISIBLE else View.GONE
                 binding.tvCategory.text = product.categoryName
                 val daysStr = StringBuilder()
                 if (product.isMon) daysStr.append("一、")
@@ -237,11 +267,13 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
                 if (daysStr.isNotEmpty()) {
                     daysStr.deleteCharAt(daysStr.length - 1)
                 }
-                binding.tvDay.visibility = if (type == null && daysStr.isNotEmpty()) View.VISIBLE else View.GONE
+                binding.tvDay.visibility = if (type == null && !isPackages && daysStr.isNotEmpty()) View.VISIBLE else View.GONE
                 binding.tvDay.text = daysStr.toString()
 
                 if (type != null) {
                     binding.ivCheck.visibility = if (getTypeEnable(product, type!!)) View.VISIBLE else View.GONE
+                } else if(isPackages) {
+                    binding.ivCheck.visibility = if (product.isCheck) View.VISIBLE else View.GONE
                 } else {
                     binding.ivCheck.visibility = View.GONE
                 }

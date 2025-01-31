@@ -50,6 +50,11 @@
     <string name="packages_manager">套餐管理</string>
     <string name="add_packages">添加套餐</string>
     <string name="packages_name">套餐名称</string>
+    <string name="packages_price">套餐价格</string>
+    <string name="please_input_packages_name">请输入菜品名称</string>
+    <string name="please_input_packages_price">请输入套餐价格</string>
+    <string name="packages_product_list">套餐商品列表</string>
+    <string name="select_packages_product">请选择套餐菜品</string>
 
 
 

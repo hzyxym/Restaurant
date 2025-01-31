@@ -42,7 +42,7 @@ class CategoryVM @Inject constructor(
 
     @Transaction
     fun updateCategoryPositions(items: List<Category>) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             // 更新数据库中的 position 字段
             items.forEachIndexed { index, item ->
                 item.position = index

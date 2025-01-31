@@ -20,10 +20,10 @@ interface PackagesDao {
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(packages: Packages)
+    suspend fun insert(packages: Packages): Long
 
     @Delete
-    fun delete(packages: Packages)
+    suspend fun delete(packages: Packages)
 
     @Query("SELECT * FROM Packages ORDER BY position")
     fun getAll(): LiveData<List<PackagesWithProductList>>

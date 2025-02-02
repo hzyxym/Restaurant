@@ -18,7 +18,7 @@ import com.hzy.restaurant.base.BaseActivity
 import com.hzy.restaurant.bean.Packages
 import com.hzy.restaurant.bean.Product
 import com.hzy.restaurant.databinding.ActivityAddPackagesBinding
-import com.hzy.restaurant.databinding.ItemPackagesMangementBinding
+import com.hzy.restaurant.databinding.ItemAddPackagesMangementBinding
 import com.hzy.restaurant.mvvm.vm.PackagesVM
 import com.hzy.restaurant.utils.ActivityResultLauncherCompat
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,15 +33,36 @@ class AddPackagesActivity : BaseActivity<ActivityAddPackagesBinding>() {
     private val launcher =
         ActivityResultLauncherCompat(this, ActivityResultContracts.StartActivityForResult())
     private val adapter by lazy { ProductManagerAdapter() }
-    private val selectProduct = mutableListOf<Product>()
+    private val selectProducts = mutableListOf<Product>()
+    private var mPackages: Packages? = null
     override fun getViewBinding(): ActivityAddPackagesBinding {
         return ActivityAddPackagesBinding.inflate(layoutInflater)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
     override fun initLocal() {
         super.initLocal()
-        setTitle(getString(R.string.add_packages))
+        if (intent.hasExtra("selectProducts")) {
+            val json = intent.getStringExtra("selectProducts")
+            val typeToken =  object : TypeToken<List<Product>>(){}.type
+            selectProducts.addAll(GsonUtils.fromJson(json, typeToken))
+            adapter.refreshData(selectProducts)
+            adapter.notifyDataSetChanged()
+        }
+        if (intent.hasExtra("packages")) {
+            mPackages = intent.getSerializableExtra("packages") as Packages
+            mPackages?.let {
+                binding.etPackagesName.setText(it.packagesName)
+                binding.etPackagesPrice.setText(it.packagesPrice.toString())
+            }
+        }
+        if (mPackages != null) {
+            setTitle(getString(R.string.edit_packages))
+            binding.tvAdd.text = getString(R.string.ok)
+        } else {
+            setTitle(getString(R.string.add_packages))
+            binding.tvAdd.text = getString(R.string.add)
+        }
 
         binding.rvProduct.layoutManager = LinearLayoutManager(this)
         binding.rvProduct.adapter = adapter
@@ -67,7 +88,8 @@ class AddPackagesActivity : BaseActivity<ActivityAddPackagesBinding>() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 // 获取被滑动的 item 的位置
                 val position = viewHolder.bindingAdapterPosition
-                adapter.removeItem(position)
+                selectProducts.removeAt(position)
+                adapter.refreshData(selectProducts)
                 adapter.notifyDataSetChanged()
             }
         })
@@ -77,15 +99,15 @@ class AddPackagesActivity : BaseActivity<ActivityAddPackagesBinding>() {
         binding.tvSelectProduct.setOnClickListener {
             val intent = Intent(this, ProductActivity::class.java)
             intent.putExtra("isPackages", true)
-            intent.putExtra("selectProducts", GsonUtils.toJson(selectProduct))
+            intent.putExtra("selectProducts", GsonUtils.toJson(selectProducts))
             launcher.launch(intent) { result ->
                 if (result.resultCode == RESULT_OK) {
                     val json = result.data?.extras?.getString("selectProducts")
                     val type = object : TypeToken<List<Product>>() {}.type
                     val list = GsonUtils.fromJson<List<Product>>(json, type)
-                    selectProduct.clear()
-                    selectProduct.addAll(list)
-                    adapter.refreshData(selectProduct)
+                    selectProducts.clear()
+                    selectProducts.addAll(list)
+                    adapter.refreshData(selectProducts)
                     adapter.notifyDataSetChanged()
                 }
             }
@@ -93,13 +115,19 @@ class AddPackagesActivity : BaseActivity<ActivityAddPackagesBinding>() {
 
         binding.tvAdd.setOnClickListener {
             if (verify()) {
-                val packages = Packages(
-                    0,
-                    binding.etPackagesName.text.toString(),
-                    binding.etPackagesPrice.text.toString().toDouble()
-                )
+                if (mPackages != null) {
+                    mPackages!!.packagesName = binding.etPackagesName.text.toString()
+                    mPackages!!.packagesPrice = binding.etPackagesPrice.text.toString().toDouble()
+                } else {
+                    mPackages = Packages(
+                        0,
+                        binding.etPackagesName.text.toString(),
+                        binding.etPackagesPrice.text.toString().toDouble(),
+                        position = -1
+                    )
+                }
                 //保存到数据库并关联关系
-                vm.savePackages(packages, selectProduct)
+                vm.savePackages(mPackages!!, selectProducts)
                 this.finish()
             }
         }
@@ -114,7 +142,7 @@ class AddPackagesActivity : BaseActivity<ActivityAddPackagesBinding>() {
             showToast(getString(R.string.please_input_packages_price))
             return false
         }
-        if (selectProduct.isEmpty()) {
+        if (selectProducts.isEmpty()) {
             showToast(getString(R.string.select_packages_product))
             return false
         }
@@ -129,13 +157,9 @@ class AddPackagesActivity : BaseActivity<ActivityAddPackagesBinding>() {
             data.addAll(productList)
         }
 
-        fun removeItem(position: Int) {
-            data.removeAt(position)
-        }
-
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductVH {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_packages_mangement, parent, false)
+                .inflate(R.layout.item_add_packages_mangement, parent, false)
             return ProductVH(view)
         }
 
@@ -148,7 +172,7 @@ class AddPackagesActivity : BaseActivity<ActivityAddPackagesBinding>() {
         }
 
         inner class ProductVH(view: View) : RecyclerView.ViewHolder(view) {
-            private val binding = ItemPackagesMangementBinding.bind(view)
+            private val binding = ItemAddPackagesMangementBinding.bind(view)
 
             @SuppressLint("SetTextI18n")
             fun bind(product: Product) {

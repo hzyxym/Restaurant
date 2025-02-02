@@ -40,7 +40,8 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
     private val adapter by lazy { ProductManagerAdapter() }
     private var type: Week? = null
     private var isPackages = false
-    private var selectProducts = mutableListOf<Product>()
+//    private var selectProducts = mutableListOf<Product>()
+    private var selectProductNames = mutableSetOf<String>()
     override fun getViewBinding(): ActivityProductBinding {
         return ActivityProductBinding.inflate(layoutInflater)
     }
@@ -52,7 +53,9 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
         if (intent.hasExtra("selectProducts")) {
             val json = intent.getStringExtra("selectProducts")
             val typeToken =  object : TypeToken<List<Product>>(){}.type
-            selectProducts.addAll(GsonUtils.fromJson(json, typeToken))
+//            selectProducts.addAll(GsonUtils.fromJson(json, typeToken))
+            val list = GsonUtils.fromJson<MutableList<Product>>(json, typeToken)
+            selectProductNames = list.map { it.productName }.toMutableSet()
         }
 
         if (type != null || isPackages) {
@@ -189,9 +192,9 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
             }
         } else if (isPackages) {
             vm.productList.observe(this) { list ->
-                list.forEach {
-                    if (selectProducts.contains(it)) {
-                        it.isCheck = true
+                list.forEach { product ->
+                    if (selectProductNames.contains(product.productName)) {
+                        product.isCheck = true
                     }
                 }
                 adapter.refreshData(list)
@@ -235,6 +238,11 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
 
                 } else if (isPackages) {
                     data[position].isCheck = !data[position].isCheck
+                    if (data[position].isCheck) {
+                        selectProductNames.add(data[position].productName)
+                    } else {
+                        selectProductNames.remove(data[position].productName)
+                    }
                     this.notifyItemChanged(position)
                 } else {
                     val intent = Intent(this@ProductActivity, AddProductActivity::class.java)

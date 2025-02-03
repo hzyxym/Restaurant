@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import com.hzy.restaurant.base.BaseFragment
 import com.hzy.restaurant.bean.PackagesWithProductList
 import com.hzy.restaurant.databinding.FragmentPackagesBinding
 import com.hzy.restaurant.databinding.ItemPackagesBinding
+import com.hzy.restaurant.mvvm.vm.MainViewModel
 import com.hzy.restaurant.mvvm.vm.PackagesVM
 import com.hzy.restaurant.utils.ext.trimZero
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,8 +26,9 @@ import dagger.hilt.android.AndroidEntryPoint
  * */
 @AndroidEntryPoint
 class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
-    private val vm by viewModels<PackagesVM>()
+    private val vm by activityViewModels<MainViewModel>()
     private val adapter by lazy { PackagesAdapter() }
+
     override fun getViewBinding(inflater: LayoutInflater, viewGroup: ViewGroup?): FragmentPackagesBinding {
         return FragmentPackagesBinding.inflate(inflater)
     }
@@ -77,6 +80,8 @@ class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
                     }
                 }
                 data[position].isCheck = !data[position].isCheck
+                vm.selectPackages = data[position]
+                binding.tvSelectPackages.text = data[position].packages.packagesName
                 this.notifyItemChanged(position)
             }
         }

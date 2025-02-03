@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import com.blankj.utilcode.util.SPUtils
 import com.hzy.restaurant.app.Constants
 import com.hzy.restaurant.bean.Category
+import com.hzy.restaurant.bean.PackagesWithProductList
 import com.hzy.restaurant.bean.Product
 import com.hzy.restaurant.bean.ProductItem
 import com.hzy.restaurant.bean.Week
 import com.hzy.restaurant.db.dao.CategoryDao
 import com.hzy.restaurant.db.dao.OrderDao
+import com.hzy.restaurant.db.dao.PackagesDao
 import com.hzy.restaurant.db.dao.ProductDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -23,11 +25,14 @@ class MainViewModel @Inject constructor(
     private val dao: OrderDao,
     private val productDao: ProductDao,
     private val categoryDao: CategoryDao,
+    private val packagesDao: PackagesDao,
 ) : ViewModel() {
     var position = 0
     var isFixed = SPUtils.getInstance().getBoolean(Constants.IS_FIXED, false)
     val productList = productDao.getAll()
     val categoryList = categoryDao.getAll()
+    val getPackagesList = packagesDao.getAll()
+    var selectPackages: PackagesWithProductList? = null
 
 //    fun insertOrder(order: Order) {
 //        viewModelScope.launch(Dispatchers.Default) {

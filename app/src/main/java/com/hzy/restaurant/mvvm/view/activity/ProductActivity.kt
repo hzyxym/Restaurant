@@ -40,7 +40,6 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
     private val adapter by lazy { ProductManagerAdapter() }
     private var type: Week? = null
     private var isPackages = false
-//    private var selectProducts = mutableListOf<Product>()
     private var selectProductNames = mutableSetOf<String>()
     override fun getViewBinding(): ActivityProductBinding {
         return ActivityProductBinding.inflate(layoutInflater)
@@ -53,7 +52,6 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
         if (intent.hasExtra("selectProducts")) {
             val json = intent.getStringExtra("selectProducts")
             val typeToken =  object : TypeToken<List<Product>>(){}.type
-//            selectProducts.addAll(GsonUtils.fromJson(json, typeToken))
             val list = GsonUtils.fromJson<MutableList<Product>>(json, typeToken)
             selectProductNames = list.map { it.productName }.toMutableSet()
         }

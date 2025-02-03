@@ -3,12 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/theme_bg"
     tools:context=".mvvm.view.fragment.main.PackagesFragment"
     tools:ignore="MissingDefaultResource">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_packages"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="PackagesFragment" />
-
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_20" />
 </FrameLayout>

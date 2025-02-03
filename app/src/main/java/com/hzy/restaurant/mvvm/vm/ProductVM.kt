@@ -20,7 +20,6 @@ import javax.inject.Inject
 class ProductVM @Inject constructor(private val productDao: ProductDao) : ViewModel() {
     val productList = productDao.getAll()
 
-    //    val productByDayList: LiveData<List<Product>>? = null
     fun getProductDayList(week: Week, isEnable: Boolean): LiveData<List<Product>> {
         return when (week) {
             Week.Monday -> productDao.getAllMonDay(isEnable)

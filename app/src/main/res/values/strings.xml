@@ -39,13 +39,30 @@
     <string name="remove_product_tips">确认移除菜品“%s”？</string>
     <string name="remind_warn">温馨提示！</string>
 
-    <string name="monday">星期一</string>
-    <string name="tuesday">星期二</string>
-    <string name="wednesday">星期三</string>
-    <string name="thursday">星期四</string>
-    <string name="friday">星期五</string>
-    <string name="saturday">星期六</string>
-    <string name="sunday">星期日</string>
+<!--    <string name="monday">星期一</string>-->
+<!--    <string name="tuesday">星期二</string>-->
+<!--    <string name="wednesday">星期三</string>-->
+<!--    <string name="thursday">星期四</string>-->
+<!--    <string name="friday">星期五</string>-->
+<!--    <string name="saturday">星期六</string>-->
+<!--    <string name="sunday">星期日</string>-->
+
+    <string-array name="week_array">
+        <item name="monday">星期一</item>
+        <item name="tuesday">星期二</item>
+        <item name="wednesday">星期三</item>
+        <item name="thursday">星期四</item>
+        <item name="friday">星期五</item>
+        <item name="saturday">星期六</item>
+        <item name="sunday">星期日</item>
+    </string-array>
+
+
+    <string-array name="sort_array">
+        <item name="all">所有</item>
+        <item name="category">分类</item>
+        <item name="week">一周</item>
+    </string-array>
 
     <string name="packages_manager">套餐管理</string>
     <string name="add_packages">添加套餐</string>
@@ -58,6 +75,9 @@
     <string name="select_packages_product">请选择套餐菜品</string>
     <string name="delete_sure_tips">确认删除“%s”？</string>
     <string name="all">所有</string>
+    <string name="is_category">分类排序</string>
+    <string name="is_week">星期排序</string>
+    <string name="print_receipt">打印小票</string>
 
 
 </resources>

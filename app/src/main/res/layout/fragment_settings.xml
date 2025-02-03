@@ -187,4 +187,93 @@
         app:layout_constraintEnd_toEndOf="@id/v_left_bg"
         app:layout_constraintStart_toStartOf="@id/v_left_bg"
         app:layout_constraintTop_toBottomOf="@+id/tv_order" />
+
+
+    <androidx.constraintlayout.helper.widget.Layer
+        android:id="@+id/layer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_corner_bg_shape"
+        app:constraint_referenced_ids="textView8,textView9"
+        app:layout_constraintBottom_toBottomOf="@+id/textView9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:gravity="center_vertical"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:text="@string/is_category"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_20"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_left_bg"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <com.kyleduo.switchbutton.SwitchButton
+        android:id="@+id/is_category"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:checked="false"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:kswAnimationDuration="300"
+        app:kswBackDrawable="@drawable/ios_back_drawable"
+        app:kswThumbDrawable="@drawable/thumb_20dp"
+        app:kswThumbMarginBottom="2dp"
+        app:kswThumbMarginLeft="3dp"
+        app:kswThumbMarginRight="3dp"
+        app:kswThumbMarginTop="2dp"
+        app:kswThumbRangeRatio="2.1"
+        app:layout_constraintBottom_toBottomOf="@+id/textView8"
+        app:layout_constraintEnd_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:gravity="center_vertical"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:text="@string/is_week"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white_20"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <com.kyleduo.switchbutton.SwitchButton
+        android:id="@+id/is_week"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/corner_edit_bg_shape"
+        android:checked="false"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        app:kswAnimationDuration="300"
+        app:kswBackDrawable="@drawable/ios_back_drawable"
+        app:kswThumbDrawable="@drawable/thumb_20dp"
+        app:kswThumbMarginBottom="2dp"
+        app:kswThumbMarginLeft="3dp"
+        app:kswThumbMarginRight="3dp"
+        app:kswThumbMarginTop="2dp"
+        app:kswThumbRangeRatio="2.1"
+        app:layout_constraintBottom_toBottomOf="@+id/textView9"
+        app:layout_constraintEnd_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toTopOf="@+id/textView9" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

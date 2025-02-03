@@ -37,15 +37,16 @@ class WeekProductActivity : BaseActivity<ActivityWeekProductBinding>() {
     override fun initLocal() {
         super.initLocal()
         setToolsBarVisible(false)
-        val titles = mutableListOf(
-            getString(R.string.monday),
-            getString(R.string.tuesday),
-            getString(R.string.wednesday),
-            getString(R.string.thursday),
-            getString(R.string.friday),
-            getString(R.string.saturday),
-            getString(R.string.sunday),
-        )
+        val titles = resources.getStringArray(R.array.week_array)
+//        val titles = mutableListOf(
+//            getString(R.string.monday),
+//            getString(R.string.tuesday),
+//            getString(R.string.wednesday),
+//            getString(R.string.thursday),
+//            getString(R.string.friday),
+//            getString(R.string.saturday),
+//            getString(R.string.sunday),
+//        )
         val adapter = ViewPagerAdapter(this, type)
         binding.viewpager.adapter = adapter
         // 绑定 TabLayout 和 ViewPager2

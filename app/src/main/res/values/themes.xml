@@ -47,4 +47,13 @@
         <item name="android:track">@drawable/ios_back_drawable</item>
         <item name="android:textColor">@color/white</item>
     </style>
+    <!-- res/values/styles.xml -->
+    <style name="CustomSpinner" parent="Widget.AppCompat.Spinner">
+        <item name="android:textSize">@dimen/sp_10</item>
+        <item name="android:padding">@dimen/dp_4</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/dialog_corner_bg_shape</item>
+        <item name="android:dropDownSelector">@color/theme_green</item>
+        <item name="android:spinnerStyle">@style/Widget.AppCompat.Spinner.Underlined</item>
+    </style>
 </resources>

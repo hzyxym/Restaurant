@@ -7,4 +7,7 @@ package com.hzy.restaurant.app
 object Constants {
     const val BLE_NAME1: String = "ble"
     const val APP_NAME: String = "Restaurant"
+    const val IS_CATEGORY: String = "isCategory"
+    const val IS_WEEK: String = "isWeek"
+    const val IS_FIXED: String = "isFixed"
 }

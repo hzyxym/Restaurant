@@ -5,21 +5,31 @@ import android.content.res.Configuration
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.blankj.utilcode.util.SPUtils
 import com.hzy.restaurant.R
+import com.hzy.restaurant.app.Constants
 import com.hzy.restaurant.base.BaseFragment
 import com.hzy.restaurant.bean.Category
 import com.hzy.restaurant.bean.Product
 import com.hzy.restaurant.bean.ProductItem
+import com.hzy.restaurant.bean.Week
+import com.hzy.restaurant.bean.event.MsgEvent
 import com.hzy.restaurant.databinding.FragmentMainBinding
 import com.hzy.restaurant.databinding.ItemCategoryHeaderBinding
 import com.hzy.restaurant.databinding.ItemProductBinding
 import com.hzy.restaurant.databinding.SelectItemBinding
 import com.hzy.restaurant.mvvm.vm.MainViewModel
+import com.hzy.restaurant.utils.Events
+import com.hzy.restaurant.utils.ext.trimZero
 import dagger.hilt.android.AndroidEntryPoint
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+import java.util.Calendar
 
 /**
  * Created by hzy in 2025/1/2
@@ -27,7 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * */
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>() {
-    private val vm by viewModels<MainViewModel>()
+    private val vm by activityViewModels<MainViewModel>()
     private val adapter by lazy { ProductAdapter() }
     private val categories = mutableListOf<Category>()
     private val products = mutableListOf<Product>()
@@ -48,6 +58,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
     override fun initLocal() {
         super.initLocal()
+        EventBus.getDefault().register(this)
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             binding.rvProduct.layoutManager = LinearLayoutManager(requireContext())
         } else {
@@ -62,36 +73,89 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 }
             }
             binding.rvProduct.layoutManager = gridLayoutManager
-//            binding.rvProduct.layoutManager = GridLayoutManager(requireContext(), 3)
         }
         binding.rvProduct.adapter = adapter
 
         //选中
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            binding.rvSelectProduct.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
+            binding.rvSelectProduct.layoutManager =
+                GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
         } else {
-            binding.rvSelectProduct.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            binding.rvSelectProduct.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
         binding.rvSelectProduct.adapter = selectAdapter
+
+        binding.tvPrint.setOnClickListener {
+            showToast("${vm.isFixed}, ${selectName.size}")
+        }
     }
 
     override fun createObserver() {
         super.createObserver()
-        vm.categoryList.observe(this) { result ->
-            categories.clear()
-            categories.addAll(result)
-            val data = vm.getGroupedProducts(products, categories, getString(R.string.all))
-            adapter.refreshData(data)
+        val isCategory = SPUtils.getInstance().getBoolean(Constants.IS_CATEGORY, false)
+        val isWeek = SPUtils.getInstance().getBoolean(Constants.IS_WEEK, false)
+        if (isCategory) {
+            vm.categoryList.observe(this) { result ->
+                categories.clear()
+                categories.addAll(result)
+                val data = vm.getGroupedProducts(products, categories, getString(R.string.all))
+                adapter.refreshData(data)
+            }
+        } else {
+            vm.categoryList.removeObservers(this)
         }
-        vm.productList.observe(this) { result ->
-            selectName.clear()
-            selectName.addAll(result.filter { it.isCheck }.map { it.productName })
-            products.clear()
-            products.addAll(result)
-            val data = vm.getGroupedProducts(products, categories, getString(R.string.all))
-            adapter.refreshData(data)
+        val dayOfWeek = getWeek()
+        if (isWeek) {
+            vm.productList.removeObservers(this)
+            vm.getProductDayList(dayOfWeek, true).observe(this) { result ->
+                handleData(result, isCategory)
+            }
+        } else {
+            vm.getProductDayList(dayOfWeek, true).removeObservers(this)
+            vm.productList.observe(this) { result ->
+                handleData(result, isCategory)
+            }
         }
+    }
 
+    private fun handleData(result: List<Product>, isCategory: Boolean) {
+        selectName.clear()
+        selectName.addAll(result.filter { it.isCheck }.map { it.productName })
+        products.clear()
+        products.addAll(result)
+        if (isCategory) {
+            val data = vm.getGroupedProducts(products, categories, getString(R.string.all))
+            adapter.refreshData(data)
+        } else {
+            val data = vm.getGroupedProducts(products)
+            adapter.refreshData(data)
+        }
+    }
+
+    private fun getWeek(): Week {
+        val calendar = Calendar.getInstance()
+        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+
+        return when (dayOfWeek) {
+            Calendar.SUNDAY -> Week.Sunday
+            Calendar.MONDAY -> Week.Monday
+            Calendar.TUESDAY -> Week.Tuesday
+            Calendar.WEDNESDAY -> Week.Wednesday
+            Calendar.THURSDAY -> Week.Thursday
+            Calendar.FRIDAY -> Week.Friday
+            Calendar.SATURDAY -> Week.Saturday
+            else -> Week.Sunday
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMsgEvent(msgEvent: MsgEvent<*>) {
+        when (msgEvent.type) {
+            Events.REFRESH_MAIN_PRODUCT -> {
+                createObserver()
+            }
+        }
     }
 
     inner class ProductAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -133,6 +197,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 is ProductItem.CategoryHeader -> {
                     (holder as CategoryHeaderViewHolder).bind(item)
                 }
+
                 is ProductItem.ProductData -> {
                     (holder as ProductViewHolder).bind(item.product)
                     holder.itemView.setOnClickListener {
@@ -164,15 +229,19 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             @SuppressLint("SetTextI18n")
             fun bind(product: Product) {
                 binding.tvProductName.text = product.productName
-                binding.tvPrice.text = "¥${product.marketPrice}"
+                binding.tvPrice.text = "￥${product.marketPrice.trimZero()}"
                 binding.checkBox.isChecked = product.isCheck
 //                binding.itemProduct.setBackgroundResource(if (product.isCheck) R.drawable.dialog_corner_bg_green_edge_shape else R.drawable.dialog_corner_bg_shape )
             }
         }
     }
 
-    inner class SelectProductAdapter(private val selectData: MutableSet<String>) : RecyclerView.Adapter<SelectProductAdapter.SelectProductViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectProductAdapter.SelectProductViewHolder {
+    inner class SelectProductAdapter(private val selectData: MutableSet<String>) :
+        RecyclerView.Adapter<SelectProductAdapter.SelectProductViewHolder>() {
+        override fun onCreateViewHolder(
+            parent: ViewGroup,
+            viewType: Int
+        ): SelectProductAdapter.SelectProductViewHolder {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.select_item, parent, false)
             return SelectProductViewHolder(view)
@@ -182,7 +251,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             return selectData.size
         }
 
-        override fun onBindViewHolder(holder: SelectProductAdapter.SelectProductViewHolder, position: Int) {
+        override fun onBindViewHolder(
+            holder: SelectProductAdapter.SelectProductViewHolder,
+            position: Int
+        ) {
             holder.bind(selectData.elementAt(position))
         }
 
@@ -192,7 +264,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 binding.tvName.text = name
             }
         }
-
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        EventBus.getDefault().unregister(this)
+    }
 }

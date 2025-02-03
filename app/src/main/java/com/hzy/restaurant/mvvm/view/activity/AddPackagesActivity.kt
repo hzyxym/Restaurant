@@ -21,6 +21,7 @@ import com.hzy.restaurant.databinding.ActivityAddPackagesBinding
 import com.hzy.restaurant.databinding.ItemAddPackagesMangementBinding
 import com.hzy.restaurant.mvvm.vm.PackagesVM
 import com.hzy.restaurant.utils.ActivityResultLauncherCompat
+import com.hzy.restaurant.utils.ext.trimZero
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -53,7 +54,7 @@ class AddPackagesActivity : BaseActivity<ActivityAddPackagesBinding>() {
             mPackages = intent.getSerializableExtra("packages") as Packages
             mPackages?.let {
                 binding.etPackagesName.setText(it.packagesName)
-                binding.etPackagesPrice.setText(it.packagesPrice.toString())
+                binding.etPackagesPrice.setText(it.packagesPrice.trimZero())
             }
         }
         if (mPackages != null) {
@@ -177,7 +178,7 @@ class AddPackagesActivity : BaseActivity<ActivityAddPackagesBinding>() {
             @SuppressLint("SetTextI18n")
             fun bind(product: Product) {
                 binding.tvProductName.text = product.productName
-                binding.tvPrice.text = "￥${product.marketPrice}"
+                binding.tvPrice.text = "￥${product.marketPrice.trimZero()}"
             }
         }
     }

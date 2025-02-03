@@ -9,6 +9,7 @@ import com.hzy.restaurant.bean.Product
 import com.hzy.restaurant.databinding.ActivityAddProductBinding
 import com.hzy.restaurant.mvvm.vm.ProductVM
 import com.hzy.restaurant.utils.ActivityResultLauncherCompat
+import com.hzy.restaurant.utils.ext.trimZero
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -39,7 +40,7 @@ class AddProductActivity : BaseActivity<ActivityAddProductBinding>() {
             binding.tvAdd.text = getString(R.string.ok)
 
             binding.etProductName.setText(product?.productName)
-            binding.etProductPrice.setText(product?.marketPrice.toString())
+            binding.etProductPrice.setText(product?.marketPrice?.trimZero())
             binding.tvProductCategory.text = product?.categoryName
             binding.isSoldOut.isChecked = product?.isSoldOut ?: false
         } else {

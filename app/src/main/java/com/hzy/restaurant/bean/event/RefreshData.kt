@@ -1,4 +1,4 @@
-package com.dc.lg_ac012.bean.event
+package com.hzy.restaurant.bean.event
 
 /**
  * Created by hzy in 2024/12/17

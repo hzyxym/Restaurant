@@ -21,6 +21,7 @@ import com.hzy.restaurant.bean.PackagesWithProductList
 import com.hzy.restaurant.databinding.ActivityPackagesManagerBinding
 import com.hzy.restaurant.databinding.ItemPackagesManagerBinding
 import com.hzy.restaurant.mvvm.vm.PackagesVM
+import com.hzy.restaurant.utils.ext.trimZero
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Collections
 
@@ -187,7 +188,7 @@ class PackagesManagerActivity : BaseActivity<ActivityPackagesManagerBinding>() {
             @SuppressLint("SetTextI18n")
             fun bind(packagesWithProductList: PackagesWithProductList) {
                 binding.tvContent.text = packagesWithProductList.packages.packagesName
-                binding.tvPrice.text = "￥${packagesWithProductList.packages.packagesPrice}"
+                binding.tvPrice.text = "￥${packagesWithProductList.packages.packagesPrice.trimZero()}"
                 val str = StringBuilder("(")
                 packagesWithProductList.products.forEach {
                     str.append(it.productName)

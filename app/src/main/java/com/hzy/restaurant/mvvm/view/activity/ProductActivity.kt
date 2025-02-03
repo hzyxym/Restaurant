@@ -25,6 +25,7 @@ import com.hzy.restaurant.databinding.ActivityProductBinding
 import com.hzy.restaurant.databinding.ItemProductMangementBinding
 import com.hzy.restaurant.mvvm.vm.ProductVM
 import com.hzy.restaurant.utils.ActivityResultLauncherCompat
+import com.hzy.restaurant.utils.ext.trimZero
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Collections
 
@@ -256,7 +257,7 @@ class ProductActivity : BaseActivity<ActivityProductBinding>() {
             @SuppressLint("SetTextI18n")
             fun bind(product: Product) {
                 binding.tvProductName.text = product.productName
-                binding.tvPrice.text = "￥${product.marketPrice}"
+                binding.tvPrice.text = "￥${product.marketPrice.trimZero()}"
                 binding.tvSoldOut.visibility = if (product.isSoldOut) View.VISIBLE else View.GONE
                 if (product.isSoldOut) binding.tvPrice.paintFlags = binding.tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 

@@ -1,4 +1,4 @@
-package com.dc.lg_ac012.bean.event
+package com.hzy.restaurant.bean.event
 
 import android.bluetooth.le.ScanResult
 

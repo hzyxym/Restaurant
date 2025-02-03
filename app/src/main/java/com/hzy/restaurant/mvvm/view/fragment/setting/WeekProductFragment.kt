@@ -24,6 +24,7 @@ import com.hzy.restaurant.databinding.FragmentWeekProductBinding
 import com.hzy.restaurant.databinding.ItemProductMangementBinding
 import com.hzy.restaurant.mvvm.view.activity.ProductActivity
 import com.hzy.restaurant.mvvm.vm.ProductVM
+import com.hzy.restaurant.utils.ext.trimZero
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -157,7 +158,7 @@ class WeekProductFragment : BaseFragment<FragmentWeekProductBinding>() {
             @SuppressLint("SetTextI18n")
             fun bind(product: Product) {
                 binding.tvProductName.text = product.productName
-                binding.tvPrice.text = "￥${product.marketPrice}"
+                binding.tvPrice.text = "￥${product.marketPrice.trimZero()}"
                 binding.tvSoldOut.visibility = if (product.isSoldOut) View.VISIBLE else View.GONE
                 if (product.isSoldOut) binding.tvPrice.paintFlags = binding.tvPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 binding.tvCategory.visibility = if (product.categoryName?.isNotEmpty() == true) View.VISIBLE else View.GONE

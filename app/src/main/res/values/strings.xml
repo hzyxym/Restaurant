@@ -75,8 +75,9 @@
     <string name="select_packages_product">请选择套餐菜品</string>
     <string name="delete_sure_tips">确认删除“%s”？</string>
     <string name="all">所有</string>
-    <string name="is_category">分类排序</string>
-    <string name="is_week">星期排序</string>
+    <string name="show_category">显示分类</string>
+    <string name="show_week">一周菜单</string>
+    <string name="fixed_product">固定选菜</string>
     <string name="print_receipt">打印小票</string>
 
 

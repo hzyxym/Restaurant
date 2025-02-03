@@ -15,6 +15,7 @@ import com.hzy.restaurant.bean.PackagesWithProductList
 import com.hzy.restaurant.databinding.FragmentPackagesBinding
 import com.hzy.restaurant.databinding.ItemPackagesBinding
 import com.hzy.restaurant.mvvm.vm.PackagesVM
+import com.hzy.restaurant.utils.ext.trimZero
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -85,7 +86,7 @@ class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
             @SuppressLint("SetTextI18n")
             fun bind(packagesWithProductList: PackagesWithProductList) {
                 binding.tvName.text = packagesWithProductList.packages.packagesName
-                binding.tvPrice.text = "￥${packagesWithProductList.packages.packagesPrice}"
+                binding.tvPrice.text = "￥${packagesWithProductList.packages.packagesPrice.trimZero()}"
                 val str = StringBuilder("(")
                 packagesWithProductList.products.forEach {
                     str.append(it.productName)

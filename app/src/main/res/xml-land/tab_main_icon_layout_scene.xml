@@ -7,12 +7,12 @@
         motion:constraintSetStart="@id/start"
         motion:duration="500">
         <KeyFrameSet>
-<!--            <KeyCycle-->
-<!--                motion:motionTarget="@+id/textView"-->
-<!--                motion:framePosition="50"-->
-<!--                motion:wavePeriod="1"-->
-<!--                android:translationX="5dp"-->
-<!--                motion:waveOffset="0dp" />-->
+            <!--            <KeyCycle-->
+            <!--                motion:motionTarget="@+id/textView"-->
+            <!--                motion:framePosition="50"-->
+            <!--                motion:wavePeriod="1"-->
+            <!--                android:translationX="5dp"-->
+            <!--                motion:waveOffset="0dp" />-->
         </KeyFrameSet>
     </Transition>
 
@@ -23,26 +23,26 @@
             android:layout_height="72dp"
             android:gravity="center"
             android:padding="@dimen/dp_10"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:translationX="-10dp"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toTopOf="parent"
-            android:translationX="-10dp"
-            android:scaleY="1"
-            android:scaleX="1">
+            motion:layout_constraintTop_toTopOf="parent">
             <CustomAttribute
                 motion:attributeName="textColor"
-                motion:customColorValue="@color/black" />
+                motion:customColorValue="@color/white" />
         </Constraint>
         <Constraint
             android:id="@+id/view"
-            motion:layout_constraintEnd_toEndOf="@+id/textView"
             android:layout_width="40dp"
             android:layout_height="90dp"
+            android:translationX="-20dp"
             motion:layout_constraintBottom_toBottomOf="@+id/textView"
-            motion:layout_constraintTop_toTopOf="@+id/textView"
+            motion:layout_constraintEnd_toEndOf="@+id/textView"
             motion:layout_constraintStart_toStartOf="@+id/textView"
-            android:translationX="-20dp">
+            motion:layout_constraintTop_toTopOf="@+id/textView">
             <CustomAttribute
                 motion:attributeName="crossfade"
                 motion:customFloatValue="0" />
@@ -54,28 +54,28 @@
             android:id="@+id/textView"
             android:layout_width="40dp"
             android:layout_height="72dp"
-            android:padding="@dimen/dp_10"
             android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:scaleX="1.1"
+            android:scaleY="1.1"
+            android:translationX="0dp"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toTopOf="parent"
-            android:translationX="0dp"
-            android:scaleY="1.1"
-            android:scaleX="1.1">
+            motion:layout_constraintTop_toTopOf="parent">
             <CustomAttribute
                 motion:attributeName="textColor"
-                motion:customColorValue="@color/white" />
+                motion:customColorValue="@color/black" />
         </Constraint>
         <Constraint
             android:id="@+id/view"
-            motion:layout_constraintEnd_toEndOf="@+id/textView"
             android:layout_width="40dp"
             android:layout_height="90dp"
+            android:translationX="0dp"
             motion:layout_constraintBottom_toBottomOf="@+id/textView"
-            motion:layout_constraintTop_toTopOf="@+id/textView"
+            motion:layout_constraintEnd_toEndOf="@+id/textView"
             motion:layout_constraintStart_toStartOf="@+id/textView"
-            android:translationX="0dp">
+            motion:layout_constraintTop_toTopOf="@+id/textView">
 
             <CustomAttribute
                 motion:attributeName="crossfade"

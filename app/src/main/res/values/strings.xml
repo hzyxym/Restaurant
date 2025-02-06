@@ -4,6 +4,7 @@
     <string name="ble_service_title">蓝牙前台服务</string>
     <string name="share">共享</string>
     <string name="export_fail">导出失败!</string>
+    <string name="tip">提示</string>
     <string name="cancel">取消</string>
     <string name="ok">确定</string>
     <string name="loading">加载中…</string>
@@ -79,6 +80,39 @@
     <string name="show_week">一周菜单</string>
     <string name="fixed_product">固定选菜</string>
     <string name="print_receipt">打印小票</string>
-
-
+    <string name="blue_label">蓝牙设备</string>
+    <string name="paired">已配对</string>
+    <string name="unpaired">未配对</string>
+    <string name="bluetooth_is_not_enabled">蓝牙未开启</string>
+    <string name="gps_permission">安卓8.0系统搜索蓝牙需开启GPS定位功能！\n请选择是否开启</string>
+    <string name="searching">搜索中…</string>
+    <string name="search_bt">搜索设备</string>
+    <string name="complete">搜索完成</string>
+    <string name="permission">权限</string>
+    <string name="no_permission">无定位权限</string>
+    <string name="camera">扫描需要摄像头权限</string>
+    <string name="camera_permission">获取权限失败，无法使用扫描功能</string>
+    <string name="status_error">状态获取异常</string>
+    <string name="status_fail">打印机状态获取失败，请检查打印机是否缺纸或开盖</string>
+    <string name="status_normal">状态正常</string>
+    <string name="status_out_of_paper">状态缺纸</string>
+    <string name="status_open">状态开盖</string>
+    <string name="status_overheated">状态过热</string>
+    <string name="conn_first">请先连接打印机</string>
+    <string name="not_connected">未连接</string>
+    <string name="conn_fail">连接失败</string>
+    <string name="conn_success">连接成功</string>
+    <string name="conning">连接中…</string>
+    <string name="checking">查询中…</string>
+    <string name="conned">已连接</string>
+    <string name="print_success">打印成功</string>
+    <string name="print_fail">打印失败</string>
+    <string name="send_success">发送成功</string>
+    <string name="send_fail">发送失败</string>
+    <string name="order">订单</string>
+    <string name="name">名称</string>
+    <string name="quantity">数量</string>
+    <string name="price">价格</string>
+    <string name="total_amount">总金额:</string>
+    <string name="cashier">收银员:</string>
 </resources>

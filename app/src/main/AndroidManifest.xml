@@ -42,6 +42,7 @@
         <activity android:name="com.hzy.restaurant.mvvm.view.activity.WeekProductActivity" />
         <activity android:name="com.hzy.restaurant.mvvm.view.activity.PackagesManagerActivity" />
         <activity android:name="com.hzy.restaurant.mvvm.view.activity.AddPackagesActivity" />
+        <activity android:name="com.hzy.restaurant.mvvm.view.activity.BlueToothDeviceActivity" />
     </application>
 
 </manifest>

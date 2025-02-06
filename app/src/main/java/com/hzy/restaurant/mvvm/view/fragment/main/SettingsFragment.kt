@@ -9,6 +9,7 @@ import com.hzy.restaurant.app.Constants
 import com.hzy.restaurant.base.BaseFragment
 import com.hzy.restaurant.bean.event.MsgEvent
 import com.hzy.restaurant.databinding.FragmentSettingsBinding
+import com.hzy.restaurant.mvvm.view.activity.BlueToothDeviceActivity
 import com.hzy.restaurant.mvvm.view.activity.CategoryManagerActivity
 import com.hzy.restaurant.mvvm.view.activity.PackagesManagerActivity
 import com.hzy.restaurant.mvvm.view.activity.ProductActivity
@@ -34,6 +35,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         binding.isCategory.isChecked = isCategory
         binding.isWeek.isChecked = isWeek
         binding.isFixed.isChecked = vm.isFixed
+
+        binding.tvDevice.setOnClickListener {
+            val intent = Intent(requireContext(), BlueToothDeviceActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.isCategory.setOnCheckedChangeListener { _, isCheck ->
             SPUtils.getInstance().put(Constants.IS_CATEGORY, isCheck)

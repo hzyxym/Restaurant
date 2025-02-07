@@ -1,10 +1,17 @@
 package com.hzy.restaurant.mvvm.view.fragment.main
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import com.blankj.utilcode.util.SPUtils
+import com.gprinter.bean.PrinterDevices
+import com.gprinter.utils.Command
+import com.gprinter.utils.ConnMethod
+import com.gprinter.utils.SDKUtils
+import com.hzy.restaurant.MainActivity
 import com.hzy.restaurant.app.Constants
 import com.hzy.restaurant.base.BaseFragment
 import com.hzy.restaurant.bean.event.MsgEvent
@@ -15,6 +22,7 @@ import com.hzy.restaurant.mvvm.view.activity.PackagesManagerActivity
 import com.hzy.restaurant.mvvm.view.activity.ProductActivity
 import com.hzy.restaurant.mvvm.view.activity.WeekProductActivity
 import com.hzy.restaurant.mvvm.vm.MainViewModel
+import com.hzy.restaurant.utils.ActivityResultLauncherCompat
 import com.hzy.restaurant.utils.Events
 import org.greenrobot.eventbus.EventBus
 
@@ -24,6 +32,8 @@ import org.greenrobot.eventbus.EventBus
  * */
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
     private val vm by activityViewModels<MainViewModel>()
+    private val launcher =
+        ActivityResultLauncherCompat(this, ActivityResultContracts.StartActivityForResult())
     override fun getViewBinding(inflater: LayoutInflater, viewGroup: ViewGroup?): FragmentSettingsBinding {
         return FragmentSettingsBinding.inflate(inflater)
     }
@@ -38,7 +48,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
         binding.tvDevice.setOnClickListener {
             val intent = Intent(requireContext(), BlueToothDeviceActivity::class.java)
-            startActivity(intent)
+            launcher.launch(intent) { result ->
+                val mac: String? = result.data?.getStringExtra(BlueToothDeviceActivity.EXTRA_DEVICE_ADDRESS)
+                Log.e("hzyxym", SDKUtils.bytesToHexString(mac?.toByteArray()))
+                val blueTooth = PrinterDevices.Build()
+                    .setContext(context)
+                    .setConnMethod(ConnMethod.BLUETOOTH)
+                    .setMacAddress(mac)
+                    .setCommand(Command.ESC)
+                    .setCallbackListener(requireActivity() as MainActivity)
+                    .build()
+                vm.printer.connect(blueTooth)
+            }
         }
 
         binding.isCategory.setOnCheckedChangeListener { _, isCheck ->

@@ -13,6 +13,7 @@ import com.hzy.restaurant.db.dao.CategoryDao
 import com.hzy.restaurant.db.dao.OrderDao
 import com.hzy.restaurant.db.dao.PackagesDao
 import com.hzy.restaurant.db.dao.ProductDao
+import com.hzy.restaurant.utils.printer.Printer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -27,6 +28,7 @@ class MainViewModel @Inject constructor(
     private val categoryDao: CategoryDao,
     private val packagesDao: PackagesDao,
 ) : ViewModel() {
+    var printer: Printer = Printer.getInstance()
     var position = 0
     var isFixed = SPUtils.getInstance().getBoolean(Constants.IS_FIXED, false)
     val productList = productDao.getAll()

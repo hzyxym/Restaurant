@@ -100,6 +100,7 @@
     <string name="status_overheated">状态过热</string>
     <string name="conn_first">请先连接打印机</string>
     <string name="not_connected">未连接</string>
+    <string name="disconnect">断开连接</string>
     <string name="conn_fail">连接失败</string>
     <string name="conn_success">连接成功</string>
     <string name="conning">连接中…</string>

@@ -2,6 +2,7 @@ package com.hzy.restaurant.mvvm.view.fragment.main
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.SPUtils
+import com.gprinter.utils.Command
+import com.gprinter.utils.LogUtils
+import com.hzy.restaurant.MainActivity
 import com.hzy.restaurant.R
 import com.hzy.restaurant.app.Constants
 import com.hzy.restaurant.base.BaseFragment
@@ -25,10 +29,13 @@ import com.hzy.restaurant.databinding.SelectItemBinding
 import com.hzy.restaurant.mvvm.vm.MainViewModel
 import com.hzy.restaurant.utils.Events
 import com.hzy.restaurant.utils.ext.trimZero
+import com.hzy.restaurant.utils.printer.PrintContent
+import com.hzy.restaurant.utils.printer.ThreadPoolManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.IOException
 import java.util.Calendar
 
 /**
@@ -87,7 +94,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         binding.rvSelectProduct.adapter = selectAdapter
 
         binding.tvPrint.setOnClickListener {
-            showToast("${vm.isFixed}, ${selectName.size}")
+            printMenu()
+//            showToast("${vm.isFixed}, ${selectName.size}")
         }
     }
 
@@ -269,5 +277,43 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     override fun onDestroyView() {
         super.onDestroyView()
         EventBus.getDefault().unregister(this)
+    }
+    fun printMenu() {
+        ThreadPoolManager.getInstance().addTask(Runnable {
+            try {
+                if (vm.printer.portManager == null) {
+                    (requireActivity() as MainActivity).tipsToast(getString(R.string.conn_first))
+                    return@Runnable
+                }
+                //打印前查询打印机状态，部分老款打印机不支持查询请去除下面查询代码
+                //******************     查询状态     ***************************
+//                val command: Command? = vm.printer.portManager?.command
+//                val status: Int = vm.printer.getPrinterState(command)
+//                if (status != 0) { //打印机处于不正常状态、则不发送打印
+//                    val msg = Message()
+//                    msg.what = 0x01
+//                    msg.arg1 = status
+//                    (requireActivity() as MainActivity).handler.sendMessage(msg)
+//                    return@Runnable
+//                }
+                //***************************************************************
+                val result: Boolean = vm.printer.portManager?.writeDataImmediately(PrintContent.get80Menu(context)) ?: false
+                if (result) {
+                    (requireActivity() as MainActivity).tipsToast(getString(R.string.send_success))
+                } else {
+                    (requireActivity() as MainActivity).tipsDialog(getString(R.string.send_fail))
+                }
+                LogUtils.e("send result", result)
+            } catch (e: IOException) {
+                (requireActivity() as MainActivity).tipsDialog(
+                    """
+                    ${getString(R.string.disconnect)}
+                    ${getString(R.string.print_fail)}${e.message}
+                    """.trimIndent()
+                )
+            } catch (e: Exception) {
+                (requireActivity() as MainActivity).tipsDialog(getString(R.string.print_fail) + e.message)
+            }
+        })
     }
 }

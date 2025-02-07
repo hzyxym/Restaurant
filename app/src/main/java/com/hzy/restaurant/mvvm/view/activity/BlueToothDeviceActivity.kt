@@ -85,7 +85,7 @@ class BlueToothDeviceActivity : BaseActivity<ActivityBluetoothBinding>() {
                 // When discovery is finished, change the Activity title
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED == action ) {
 //                setProgressBarIndeterminateVisibility(false)
-                setTitle(R.string.complete)
+                showToast(R.string.complete)
 //                Log.i("tag", "finish discovery" + (adapter.count - 2))
             } else if (BluetoothAdapter.ACTION_STATE_CHANGED == action) {
                 val bluetoothState = intent.getIntExtra(

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Restaurant</string>
+    <string name="app_name">玉燕食堂</string>
     <string name="service_notify_content">点击进入</string>
     <string name="ble_service_title">蓝牙前台服务</string>
     <string name="share">共享</string>

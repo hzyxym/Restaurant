@@ -12,6 +12,7 @@
         android:id="@+id/rv_packages"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_12"
         android:layout_marginBottom="@dimen/dp_20"
         app:layout_constraintBottom_toTopOf="@+id/guideline1"
         app:layout_constraintEnd_toEndOf="parent"

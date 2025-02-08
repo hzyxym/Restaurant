@@ -1,18 +1,25 @@
 package com.hzy.restaurant.mvvm.view.fragment.main
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Message
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity.RESULT_OK
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.SPUtils
+import com.gprinter.bean.PrinterDevices
 import com.gprinter.utils.Command
+import com.gprinter.utils.ConnMethod
 import com.gprinter.utils.LogUtils
+import com.gprinter.utils.SDKUtils
 import com.hzy.restaurant.MainActivity
 import com.hzy.restaurant.R
 import com.hzy.restaurant.app.Constants
@@ -26,7 +33,9 @@ import com.hzy.restaurant.databinding.FragmentMainBinding
 import com.hzy.restaurant.databinding.ItemCategoryHeaderBinding
 import com.hzy.restaurant.databinding.ItemProductBinding
 import com.hzy.restaurant.databinding.SelectItemBinding
+import com.hzy.restaurant.mvvm.view.activity.BlueToothDeviceActivity
 import com.hzy.restaurant.mvvm.vm.MainViewModel
+import com.hzy.restaurant.utils.ActivityResultLauncherCompat
 import com.hzy.restaurant.utils.Events
 import com.hzy.restaurant.utils.ext.trimZero
 import com.hzy.restaurant.utils.printer.PrintContent
@@ -50,7 +59,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     private val products = mutableListOf<Product>()
     private val selectName = mutableSetOf<String>()
     private val selectAdapter by lazy { SelectProductAdapter(selectName) }
-
+    private val launcher =
+        ActivityResultLauncherCompat(this, ActivityResultContracts.StartActivityForResult())
     companion object {
         const val VIEW_TYPE_CATEGORY_HEADER = 0
         const val VIEW_TYPE_PRODUCT = 1
@@ -94,7 +104,25 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         binding.rvSelectProduct.adapter = selectAdapter
 
         binding.tvPrint.setOnClickListener {
-            printMenu()
+            if (vm.isConnectPrinter.value == true) {
+                printMenu()
+            } else {
+                val intent = Intent(requireContext(), BlueToothDeviceActivity::class.java)
+                launcher.launch(intent) { result ->
+                    if (result.resultCode == RESULT_OK) {
+                        val mac: String? = result.data?.getStringExtra(BlueToothDeviceActivity.EXTRA_DEVICE_ADDRESS)
+                        Log.e("hzyxym", SDKUtils.bytesToHexString(mac?.toByteArray()))
+                        val blueTooth = PrinterDevices.Build()
+                            .setContext(context)
+                            .setConnMethod(ConnMethod.BLUETOOTH)
+                            .setMacAddress(mac)
+                            .setCommand(Command.ESC)
+                            .setCallbackListener(requireActivity() as MainActivity)
+                            .build()
+                        vm.printer.connect(blueTooth)
+                    }
+                }
+            }
 //            showToast("${vm.isFixed}, ${selectName.size}")
         }
     }
@@ -123,6 +151,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             vm.getProductDayList(dayOfWeek, true).removeObservers(this)
             vm.productList.observe(this) { result ->
                 handleData(result, isCategory)
+            }
+        }
+
+        vm.isConnectPrinter.observe(this) {
+            if (it) {
+                binding.tvPrint.text = getString(R.string.print_receipt)
+            } else {
+                binding.tvPrint.text = getString(R.string.conn_printer)
             }
         }
     }
@@ -278,26 +314,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         super.onDestroyView()
         EventBus.getDefault().unregister(this)
     }
-    fun printMenu() {
+    private fun printMenu() {
         ThreadPoolManager.getInstance().addTask(Runnable {
             try {
                 if (vm.printer.portManager == null) {
                     (requireActivity() as MainActivity).tipsToast(getString(R.string.conn_first))
                     return@Runnable
                 }
-                //打印前查询打印机状态，部分老款打印机不支持查询请去除下面查询代码
-                //******************     查询状态     ***************************
-//                val command: Command? = vm.printer.portManager?.command
-//                val status: Int = vm.printer.getPrinterState(command)
-//                if (status != 0) { //打印机处于不正常状态、则不发送打印
-//                    val msg = Message()
-//                    msg.what = 0x01
-//                    msg.arg1 = status
-//                    (requireActivity() as MainActivity).handler.sendMessage(msg)
-//                    return@Runnable
-//                }
-                //***************************************************************
-                val result: Boolean = vm.printer.portManager?.writeDataImmediately(PrintContent.get80Menu(context)) ?: false
+                val result: Boolean = vm.printer.portManager?.writeDataImmediately(PrintContent.get58Menu(context)) ?: false
                 if (result) {
                     (requireActivity() as MainActivity).tipsToast(getString(R.string.send_success))
                 } else {
@@ -313,6 +337,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 )
             } catch (e: Exception) {
                 (requireActivity() as MainActivity).tipsDialog(getString(R.string.print_fail) + e.message)
+            } finally {
+                showToast("打印成功")
             }
         })
     }

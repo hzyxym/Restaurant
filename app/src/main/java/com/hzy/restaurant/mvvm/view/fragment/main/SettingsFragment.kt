@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity.RESULT_OK
 import androidx.fragment.app.activityViewModels
 import com.blankj.utilcode.util.SPUtils
 import com.gprinter.bean.PrinterDevices
@@ -49,16 +50,18 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         binding.tvDevice.setOnClickListener {
             val intent = Intent(requireContext(), BlueToothDeviceActivity::class.java)
             launcher.launch(intent) { result ->
-                val mac: String? = result.data?.getStringExtra(BlueToothDeviceActivity.EXTRA_DEVICE_ADDRESS)
-                Log.e("hzyxym", SDKUtils.bytesToHexString(mac?.toByteArray()))
-                val blueTooth = PrinterDevices.Build()
-                    .setContext(context)
-                    .setConnMethod(ConnMethod.BLUETOOTH)
-                    .setMacAddress(mac)
-                    .setCommand(Command.ESC)
-                    .setCallbackListener(requireActivity() as MainActivity)
-                    .build()
-                vm.printer.connect(blueTooth)
+                if (result.resultCode == RESULT_OK) {
+                    val mac: String? = result.data?.getStringExtra(BlueToothDeviceActivity.EXTRA_DEVICE_ADDRESS)
+                    Log.e("hzyxym", SDKUtils.bytesToHexString(mac?.toByteArray()))
+                    val blueTooth = PrinterDevices.Build()
+                        .setContext(context)
+                        .setConnMethod(ConnMethod.BLUETOOTH)
+                        .setMacAddress(mac)
+                        .setCommand(Command.ESC)
+                        .setCallbackListener(requireActivity() as MainActivity)
+                        .build()
+                    vm.printer.connect(blueTooth)
+                }
             }
         }
 

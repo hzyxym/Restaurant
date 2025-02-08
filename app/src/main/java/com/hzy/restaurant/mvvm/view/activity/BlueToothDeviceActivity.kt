@@ -16,7 +16,6 @@ import android.provider.Settings
 import android.view.View
 import android.view.Window
 import android.widget.AdapterView
-import android.widget.Toast
 import com.hzy.restaurant.R
 import com.hzy.restaurant.base.BaseActivity
 import com.hzy.restaurant.bean.BluetoothParameter
@@ -28,10 +27,8 @@ import com.hzy.restaurant.utils.ble.BluetoothDeviceAdapter
 @Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
 class BlueToothDeviceActivity : BaseActivity<ActivityBluetoothBinding>() {
     private lateinit var adapter: BluetoothDeviceAdapter
-
     //已配对列表
     private val pairedDevices: MutableList<BluetoothParameter> = ArrayList()
-
     //新设备列表
     private val newDevices: MutableList<BluetoothParameter> = ArrayList()
     private var mBluetoothAdapter: BluetoothAdapter? = null
@@ -66,11 +63,11 @@ class BlueToothDeviceActivity : BaseActivity<ActivityBluetoothBinding>() {
                             return
                         }
                     }
-                    if (parameter.bluetoothName?.contains("GP-C58") == true || parameter.bluetoothName?.contains("GP-C80") == true) {
+//                    if (parameter.bluetoothName?.contains("GP-C58") == true || parameter.bluetoothName?.contains("GP-C80") == true) {
                         newDevices.add(parameter)
                         newDevices.sortedWith(Signal())
                         adapter.notifyDataSetChanged()
-                    }
+//                    }
                 } else { //更新已配对蓝牙
                     for (i in pairedDevices.indices) {
                         if (pairedDevices[i].bluetoothMac == parameter.bluetoothMac) {
@@ -82,11 +79,8 @@ class BlueToothDeviceActivity : BaseActivity<ActivityBluetoothBinding>() {
                     pairedDevices.add(parameter)
                     adapter.notifyDataSetChanged()
                 }
-                // When discovery is finished, change the Activity title
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED == action ) {
-//                setProgressBarIndeterminateVisibility(false)
-                showToast(R.string.complete)
-//                Log.i("tag", "finish discovery" + (adapter.count - 2))
+//                showToast(R.string.search_complete)
             } else if (BluetoothAdapter.ACTION_STATE_CHANGED == action) {
                 val bluetoothState = intent.getIntExtra(
                     BluetoothAdapter.EXTRA_STATE,
@@ -101,7 +95,6 @@ class BlueToothDeviceActivity : BaseActivity<ActivityBluetoothBinding>() {
             }
         }
     }
-
 
     // 自定义比较器：按信号强度排序
     internal class Signal : Comparator<Any?> {
@@ -140,7 +133,6 @@ class BlueToothDeviceActivity : BaseActivity<ActivityBluetoothBinding>() {
         try {
             binding.btnSearch.visibility = View.GONE
             title = getString(R.string.searching)
-//            setProgressBarIndeterminateVisibility(true)
             mBluetoothAdapter!!.startDiscovery()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -195,7 +187,7 @@ class BlueToothDeviceActivity : BaseActivity<ActivityBluetoothBinding>() {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
-            Toast.makeText(this, "Bluetooth is not supported by the device", Toast.LENGTH_LONG).show()
+            showToast(getString(R.string.no_bluetooth))
         } else {
             // If BT is not on, request that it be enabled.
             // setupChat() will then be called during onActivityResult
@@ -212,7 +204,7 @@ class BlueToothDeviceActivity : BaseActivity<ActivityBluetoothBinding>() {
                             if ((Build.VERSION.SDK_INT >= 29) && !manager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                                 val alertDialog = AlertDialog.Builder(this@BlueToothDeviceActivity)
                                     .setTitle(getString(R.string.tip))
-                                    .setMessage(getString(R.string.gps_permission))
+                                    .setMessage(getString(R.string.location_content))
                                     .setIcon(R.mipmap.ic_launcher)
                                     .setPositiveButton(
                                         getString(R.string.ok)
@@ -234,7 +226,7 @@ class BlueToothDeviceActivity : BaseActivity<ActivityBluetoothBinding>() {
                             for (p in permission) {
                                 when (p) {
                                     Manifest.permission.ACCESS_FINE_LOCATION -> {
-
+                                        showToast(getString(R.string.no_permission))
                                     }
                                 }
                             }
@@ -255,7 +247,7 @@ class BlueToothDeviceActivity : BaseActivity<ActivityBluetoothBinding>() {
                 initBluetooth()
             } else {
                 // bluetooth is not open
-                Toast.makeText(this, R.string.bluetooth_is_not_enabled, Toast.LENGTH_SHORT).show()
+                getString(R.string.bluetooth_is_not_enabled)
                 finish()
             }
         } else if (requestCode == REQUEST_ENABLE_GPS) {
@@ -263,7 +255,7 @@ class BlueToothDeviceActivity : BaseActivity<ActivityBluetoothBinding>() {
                 // bluetooth is opened
                 initBluetooth()
             } else {
-                // bluetooth is not open
+                showToast(getString(R.string.ble_off_tips))
             }
         }
     }

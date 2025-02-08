@@ -1,6 +1,7 @@
 package com.hzy.restaurant.mvvm.vm
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.blankj.utilcode.util.SPUtils
 import com.hzy.restaurant.app.Constants
@@ -29,6 +30,7 @@ class MainViewModel @Inject constructor(
     private val packagesDao: PackagesDao,
 ) : ViewModel() {
     var printer: Printer = Printer.getInstance()
+    var isConnectPrinter = MutableLiveData(false)
     var position = 0
     var isFixed = SPUtils.getInstance().getBoolean(Constants.IS_FIXED, false)
     val productList = productDao.getAll()

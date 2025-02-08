@@ -1,24 +1,39 @@
 package com.hzy.restaurant.mvvm.view.fragment.main
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.Configuration
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity.RESULT_OK
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.gprinter.bean.PrinterDevices
+import com.gprinter.utils.Command
+import com.gprinter.utils.ConnMethod
+import com.gprinter.utils.LogUtils
+import com.gprinter.utils.SDKUtils
+import com.hzy.restaurant.MainActivity
 import com.hzy.restaurant.R
 import com.hzy.restaurant.base.BaseFragment
 import com.hzy.restaurant.bean.PackagesWithProductList
 import com.hzy.restaurant.databinding.FragmentPackagesBinding
 import com.hzy.restaurant.databinding.ItemPackagesBinding
+import com.hzy.restaurant.mvvm.view.activity.BlueToothDeviceActivity
 import com.hzy.restaurant.mvvm.vm.MainViewModel
 import com.hzy.restaurant.mvvm.vm.PackagesVM
+import com.hzy.restaurant.utils.ActivityResultLauncherCompat
 import com.hzy.restaurant.utils.ext.trimZero
+import com.hzy.restaurant.utils.printer.PrintContent
+import com.hzy.restaurant.utils.printer.ThreadPoolManager
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.IOException
 
 /**
  * Created by hzy in 2025/1/2
@@ -28,7 +43,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
     private val vm by activityViewModels<MainViewModel>()
     private val adapter by lazy { PackagesAdapter() }
-
+    private val launcher =
+        ActivityResultLauncherCompat(this, ActivityResultContracts.StartActivityForResult())
     override fun getViewBinding(inflater: LayoutInflater, viewGroup: ViewGroup?): FragmentPackagesBinding {
         return FragmentPackagesBinding.inflate(inflater)
     }
@@ -41,6 +57,28 @@ class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
             binding.rvPackages.layoutManager = GridLayoutManager(requireContext(), 3)
         }
         binding.rvPackages.adapter = adapter
+
+        binding.tvPrint.setOnClickListener {
+            if (vm.isConnectPrinter.value == true) {
+                printMenu()
+            } else {
+                val intent = Intent(requireContext(), BlueToothDeviceActivity::class.java)
+                launcher.launch(intent) { result ->
+                    if (result.resultCode == RESULT_OK) {
+                        val mac: String? = result.data?.getStringExtra(BlueToothDeviceActivity.EXTRA_DEVICE_ADDRESS)
+                        Log.e("hzyxym", SDKUtils.bytesToHexString(mac?.toByteArray()))
+                        val blueTooth = PrinterDevices.Build()
+                            .setContext(context)
+                            .setConnMethod(ConnMethod.BLUETOOTH)
+                            .setMacAddress(mac)
+                            .setCommand(Command.ESC)
+                            .setCallbackListener(requireActivity() as MainActivity)
+                            .build()
+                        vm.printer.connect(blueTooth)
+                    }
+                }
+            }
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -49,6 +87,13 @@ class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
         vm.getPackagesList.observe(this) {
             adapter.refreshData(it)
             adapter.notifyDataSetChanged()
+        }
+        vm.isConnectPrinter.observe(this) {
+            if (it) {
+                binding.tvPrint.text = getString(R.string.print_receipt)
+            } else {
+                binding.tvPrint.text = getString(R.string.conn_printer)
+            }
         }
     }
 
@@ -108,5 +153,34 @@ class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
                 }
             }
         }
+    }
+
+    fun printMenu() {
+        ThreadPoolManager.getInstance().addTask(Runnable {
+            try {
+                if (vm.printer.portManager == null) {
+                    (requireActivity() as MainActivity).tipsToast(getString(R.string.conn_first))
+                    return@Runnable
+                }
+                val result: Boolean = vm.printer.portManager?.writeDataImmediately(PrintContent.get58Menu(context)) ?: false
+                if (result) {
+                    (requireActivity() as MainActivity).tipsToast(getString(R.string.send_success))
+                } else {
+                    (requireActivity() as MainActivity).tipsDialog(getString(R.string.send_fail))
+                }
+                LogUtils.e("send result", result)
+            } catch (e: IOException) {
+                (requireActivity() as MainActivity).tipsDialog(
+                    """
+                    ${getString(R.string.disconnect)}
+                    ${getString(R.string.print_fail)}${e.message}
+                    """.trimIndent()
+                )
+            } catch (e: Exception) {
+                (requireActivity() as MainActivity).tipsDialog(getString(R.string.print_fail) + e.message)
+            } finally {
+                showToast("打印成功")
+            }
+        })
     }
 }

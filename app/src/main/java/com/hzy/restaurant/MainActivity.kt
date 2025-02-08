@@ -1,21 +1,36 @@
 package com.hzy.restaurant
 
+import android.Manifest
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.provider.Settings
+import android.view.Gravity
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.gprinter.bean.PrinterDevices
 import com.gprinter.utils.CallbackListener
 import com.hzy.restaurant.base.BaseActivity
 import com.hzy.restaurant.databinding.ActivityMainBinding
 import com.hzy.restaurant.mvvm.vm.MainViewModel
+import com.hzy.restaurant.utils.ActivityResultLauncherCompat
+import com.hzy.restaurant.utils.PermissionsHelper
+import com.hzy.restaurant.utils.Utils
+import com.hzy.restaurant.utils.dialog.SingleTipDialog
 import com.hzy.restaurant.utils.ext.initMain
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
     private val vm: MainViewModel by viewModels()
+    private val launcher = ActivityResultLauncherCompat(this, ActivityResultContracts.StartActivityForResult())
+    private val permissionsLauncher = ActivityResultLauncherCompat(this, ActivityResultContracts.RequestMultiplePermissions())
+    private val permissionsNeeded = PermissionsHelper.getBlePermissionsNeeded().toTypedArray()
+    private var permissionsTipDialog: SingleTipDialog? = null
+    private var bleDialog: SingleTipDialog? = null
     override fun getViewBinding(): ActivityMainBinding {
         return ActivityMainBinding.inflate(layoutInflater)
     }
@@ -24,6 +39,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
         super.initLocal()
         setToolsBarVisible(false)
         initNav()
+        if (!PermissionsHelper.isGranted(permissionsNeeded)) {
+            showAllPermissionDialog()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (Utils.isOn()) {
+            closeBleDialog()
+        } else {
+            showBleDialog()
+        }
     }
 
     //初始化导航
@@ -61,7 +88,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
         }
     }
 
-    var handler: Handler = object : Handler(Looper.getMainLooper()) {
+    private var handler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 0x00 -> {
@@ -102,7 +129,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
                             return
                         }
                         -5 -> {
-                            showToast("portManager is null")
+                            showToast(getString(R.string.conn_first))
                             return
                         }
                     }
@@ -114,6 +141,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
                             vm.printer.close()
                         }
                     }.start()
+                    showToast(getString(R.string.conn_first))
 //                    tvState.setText(getString(R.string.not_connected))
                 }
 
@@ -135,37 +163,126 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
         }
     }
 
+
+    /**
+     * 初始化权限
+     */
+    private fun getAllPermission() {
+        permissionsLauncher.launch(permissionsNeeded) { permissions ->
+            permissions.forEach { entry ->
+                val permissionName = entry.key
+                val isGranted = entry.value
+                if (!isGranted) {
+                    if (!shouldShowRequestPermissionRationale(permissionName)) {
+                        gotoSystemSetting()
+                        when(permissionName) {
+                            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION -> showToast(getString(R.string.no_permission))
+                            Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT -> showToast(getString(R.string.no_scan_permission))
+                        }
+                    } else {
+                        showAllPermissionDialog()
+                    }
+                    return@launch
+                }
+            }
+            if (PermissionsHelper.isGranted(permissionsNeeded)) {
+                //启动服务
+                showToast("可以连接打印机了")
+            }
+        }
+    }
+
+    //跳去app设置界面
+    private fun gotoSystemSetting() {
+        val packageURI = Uri.parse("package:$packageName")
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI)
+        launcher.launch(intent) {
+            //获取后台定位权限
+            if (!PermissionsHelper.isGranted(permissionsNeeded)) {
+                showAllPermissionDialog()
+            }
+        }
+    }
+
+    //显示位置权限提示弹框
+    private fun showAllPermissionDialog() {
+        if (permissionsTipDialog == null) {
+            permissionsTipDialog = SingleTipDialog(this)
+            permissionsTipDialog!!.show()
+            permissionsTipDialog!!.setTitleText(getString(R.string.location_title))
+                .setContentText(getString(R.string.location_content))
+                .setCanceledOnTouch(true)
+                .setCloseVisible(false)
+                .setContentGravity(Gravity.START)
+                .setDialogListener {
+                    getAllPermission()
+                }
+        }
+        permissionsTipDialog?.show()
+    }
+
+    //显示蓝牙权限提示弹框
+    private fun showBleDialog() {
+        //避免跟权限弹框覆盖
+        if (!PermissionsHelper.isGranted(permissionsNeeded)) {
+            return
+        }
+        if (bleDialog == null) {
+            bleDialog = SingleTipDialog(this)
+            bleDialog!!.show()
+            bleDialog!!.setTitleText(getString(R.string.remind_warn))
+                .setContentText(getString(R.string.ble_off_tips))
+                .setCloseVisible(false)
+                .setCanceledOnTouch(true)
+                .setContentGravity(Gravity.START)
+                .setDialogListener {
+                    Utils.openBluetooth()
+                }
+        }
+        bleDialog?.show()
+    }
+
+    //关闭bleDialog
+    private fun closeBleDialog() {
+        if (bleDialog?.isShowing == true) bleDialog?.dismiss()
+    }
+
+
     override fun onConnecting() {
         //连接打印机中
 //        tvState.setText(getString(R.string.conning))
+        showLoading(getString(R.string.conn_printer))
+        println("printer status: onConnecting")
     }
 
     override fun onCheckCommand() {
         //查询打印机指令
 //        tvState.setText(getString(R.string.checking))
+        println("printer status: onCheckCommand")
     }
 
     override fun onSuccess(printerDevices: PrinterDevices?) {
+        println("printer status: onSuccess")
+        goneLoading()
         showToast(getString(R.string.conn_success))
-//        tvState.setText( """
-//                ${getString(R.string.conned)}
-//                ${printerDevices.toString()}
-//                """.trimIndent()
-//        )
+        vm.isConnectPrinter.value = true
     }
 
     override fun onReceive(data: ByteArray?) {
-
+        println("printer status: onReceive")
     }
 
     override fun onFailure() {
+        println("printer status: onFailure")
+        goneLoading()
         showToast(getString(R.string.conn_fail))
-        handler.obtainMessage(0x02).sendToTarget()
+        vm.isConnectPrinter.value = false
     }
 
     override fun onDisconnect() {
+        println("printer status: onDisconnect")
         showToast(getString(R.string.disconnect))
-        handler.obtainMessage(0x02).sendToTarget()
+        vm.isConnectPrinter.value = false
     }
 
     /**

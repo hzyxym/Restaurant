@@ -63,11 +63,11 @@ class BlueToothDeviceActivity : BaseActivity<ActivityBluetoothBinding>() {
                             return
                         }
                     }
-//                    if (parameter.bluetoothName?.contains("GP-C58") == true || parameter.bluetoothName?.contains("GP-C80") == true) {
+                    if (parameter.bluetoothName?.contains("GP-C58") == true || parameter.bluetoothName?.contains("GP-C80") == true) {
                         newDevices.add(parameter)
                         newDevices.sortedWith(Signal())
                         adapter.notifyDataSetChanged()
-//                    }
+                    }
                 } else { //更新已配对蓝牙
                     for (i in pairedDevices.indices) {
                         if (pairedDevices[i].bluetoothMac == parameter.bluetoothMac) {

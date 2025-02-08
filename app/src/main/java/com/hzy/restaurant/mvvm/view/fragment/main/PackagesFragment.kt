@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity.RESULT_OK
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ import com.gprinter.utils.SDKUtils
 import com.hzy.restaurant.MainActivity
 import com.hzy.restaurant.R
 import com.hzy.restaurant.base.BaseFragment
+import com.hzy.restaurant.bean.Order
 import com.hzy.restaurant.bean.PackagesWithProductList
 import com.hzy.restaurant.databinding.FragmentPackagesBinding
 import com.hzy.restaurant.databinding.ItemPackagesBinding
@@ -33,6 +35,8 @@ import com.hzy.restaurant.utils.ext.trimZero
 import com.hzy.restaurant.utils.printer.PrintContent
 import com.hzy.restaurant.utils.printer.ThreadPoolManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.IOException
 
 /**
@@ -45,7 +49,11 @@ class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
     private val adapter by lazy { PackagesAdapter() }
     private val launcher =
         ActivityResultLauncherCompat(this, ActivityResultContracts.StartActivityForResult())
-    override fun getViewBinding(inflater: LayoutInflater, viewGroup: ViewGroup?): FragmentPackagesBinding {
+
+    override fun getViewBinding(
+        inflater: LayoutInflater,
+        viewGroup: ViewGroup?
+    ): FragmentPackagesBinding {
         return FragmentPackagesBinding.inflate(inflater)
     }
 
@@ -60,12 +68,33 @@ class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
 
         binding.tvPrint.setOnClickListener {
             if (vm.isConnectPrinter.value == true) {
-                printMenu()
+//                printMenu()
+                lifecycleScope.launch(Dispatchers.Default) {
+                    val mainActivity = (requireActivity() as MainActivity)
+                    vm.selectPackages?.let {
+                        val currentNo =
+                            (vm.getOrderMaxCurrentNo(mainActivity.getStartOfDayMillis()) ?: 0) + 1
+                        val selectedProducts = it.products
+                        val order = Order(
+                            0L,
+                            System.currentTimeMillis(),
+                            currentNo,
+                            System.currentTimeMillis(),
+                            selectedProducts,
+                            it.packages.packagesName,
+                            it.packages.packagesPrice
+                        )
+                        mainActivity.printMenu(order)
+                    } ?: run {
+                        mainActivity.tipsToast((getString(R.string.please_select_packages)))
+                    }
+                }
             } else {
                 val intent = Intent(requireContext(), BlueToothDeviceActivity::class.java)
                 launcher.launch(intent) { result ->
                     if (result.resultCode == RESULT_OK) {
-                        val mac: String? = result.data?.getStringExtra(BlueToothDeviceActivity.EXTRA_DEVICE_ADDRESS)
+                        val mac: String? =
+                            result.data?.getStringExtra(BlueToothDeviceActivity.EXTRA_DEVICE_ADDRESS)
                         Log.e("hzyxym", SDKUtils.bytesToHexString(mac?.toByteArray()))
                         val blueTooth = PrinterDevices.Build()
                             .setContext(context)
@@ -107,7 +136,8 @@ class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PackagesVH {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_packages, parent, false)
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.item_packages, parent, false)
             return PackagesVH(view)
         }
 
@@ -133,16 +163,18 @@ class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
 
         inner class PackagesVH(view: View) : RecyclerView.ViewHolder(view) {
             private val binding = ItemPackagesBinding.bind(view)
+
             @SuppressLint("SetTextI18n")
             fun bind(packagesWithProductList: PackagesWithProductList) {
                 binding.tvName.text = packagesWithProductList.packages.packagesName
-                binding.tvPrice.text = "￥${packagesWithProductList.packages.packagesPrice.trimZero()}"
+                binding.tvPrice.text =
+                    "￥${packagesWithProductList.packages.packagesPrice.trimZero()}"
                 val str = StringBuilder("(")
                 packagesWithProductList.products.forEach {
                     str.append(it.productName)
                     str.append("/")
                 }
-                str.deleteCharAt(str.length -1)
+                str.deleteCharAt(str.length - 1)
                 str.append(")")
                 binding.tvProducts.text = str.toString()
 
@@ -155,14 +187,16 @@ class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
         }
     }
 
-    fun printMenu() {
+    fun printMenu(order: Order) {
         ThreadPoolManager.getInstance().addTask(Runnable {
             try {
                 if (vm.printer.portManager == null) {
                     (requireActivity() as MainActivity).tipsToast(getString(R.string.conn_first))
                     return@Runnable
                 }
-                val result: Boolean = vm.printer.portManager?.writeDataImmediately(PrintContent.get58Menu(context)) ?: false
+                val result: Boolean =
+                    vm.printer.portManager?.writeDataImmediately(PrintContent.get58Menu(order))
+                        ?: false
                 if (result) {
                     (requireActivity() as MainActivity).tipsToast(getString(R.string.send_success))
                 } else {

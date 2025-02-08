@@ -3,9 +3,11 @@ package com.hzy.restaurant.mvvm.vm
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.blankj.utilcode.util.SPUtils
 import com.hzy.restaurant.app.Constants
 import com.hzy.restaurant.bean.Category
+import com.hzy.restaurant.bean.Order
 import com.hzy.restaurant.bean.PackagesWithProductList
 import com.hzy.restaurant.bean.Product
 import com.hzy.restaurant.bean.ProductItem
@@ -16,6 +18,8 @@ import com.hzy.restaurant.db.dao.PackagesDao
 import com.hzy.restaurant.db.dao.ProductDao
 import com.hzy.restaurant.utils.printer.Printer
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -24,7 +28,7 @@ import javax.inject.Inject
  * */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val dao: OrderDao,
+    private val orderDao: OrderDao,
     private val productDao: ProductDao,
     private val categoryDao: CategoryDao,
     private val packagesDao: PackagesDao,
@@ -38,11 +42,11 @@ class MainViewModel @Inject constructor(
     val getPackagesList = packagesDao.getAll()
     var selectPackages: PackagesWithProductList? = null
 
-//    fun insertOrder(order: Order) {
-//        viewModelScope.launch(Dispatchers.Default) {
-//            dao.insert(order)
-//        }
-//    }
+    fun insertOrder(order: Order) {
+        viewModelScope.launch(Dispatchers.Default) {
+            orderDao.insert(order)
+        }
+    }
 
     //获取一周的菜品
     fun getProductDayList(week: Week, isEnable: Boolean): LiveData<List<Product>> {
@@ -86,5 +90,9 @@ class MainViewModel @Inject constructor(
         val groupedList = mutableListOf<ProductItem>()
         products.forEach { groupedList.add(ProductItem.ProductData(it)) }
         return groupedList
+    }
+
+    suspend fun getOrderMaxCurrentNo(time : Long): Long? {
+        return orderDao.getMaxCurrentNo(time)
     }
 }

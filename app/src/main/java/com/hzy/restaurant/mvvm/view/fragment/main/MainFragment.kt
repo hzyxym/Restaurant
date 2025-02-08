@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity.RESULT_OK
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,7 @@ import com.hzy.restaurant.R
 import com.hzy.restaurant.app.Constants
 import com.hzy.restaurant.base.BaseFragment
 import com.hzy.restaurant.bean.Category
+import com.hzy.restaurant.bean.Order
 import com.hzy.restaurant.bean.Product
 import com.hzy.restaurant.bean.ProductItem
 import com.hzy.restaurant.bean.Week
@@ -41,6 +43,8 @@ import com.hzy.restaurant.utils.ext.trimZero
 import com.hzy.restaurant.utils.printer.PrintContent
 import com.hzy.restaurant.utils.printer.ThreadPoolManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -105,7 +109,18 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
         binding.tvPrint.setOnClickListener {
             if (vm.isConnectPrinter.value == true) {
-                printMenu()
+                lifecycleScope.launch (Dispatchers.Default){
+                    val mainActivity = (requireActivity() as MainActivity)
+                    if (selectName.isEmpty()) {
+//                        showToast("${vm.isFixed}, ${selectName.size}")
+                        mainActivity.tipsToast(getString(R.string.please_select_product))
+                        return@launch
+                    }
+                    val currentNo = (vm.getOrderMaxCurrentNo(mainActivity.getStartOfDayMillis()) ?: 0) + 1
+                    val selectedProducts = products.filter { it.productName in selectName }
+                    val order = Order(0L, System.currentTimeMillis(), currentNo, System.currentTimeMillis(), selectedProducts)
+                    mainActivity.printMenu(order)
+                }
             } else {
                 val intent = Intent(requireContext(), BlueToothDeviceActivity::class.java)
                 launcher.launch(intent) { result ->
@@ -313,33 +328,5 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     override fun onDestroyView() {
         super.onDestroyView()
         EventBus.getDefault().unregister(this)
-    }
-    private fun printMenu() {
-        ThreadPoolManager.getInstance().addTask(Runnable {
-            try {
-                if (vm.printer.portManager == null) {
-                    (requireActivity() as MainActivity).tipsToast(getString(R.string.conn_first))
-                    return@Runnable
-                }
-                val result: Boolean = vm.printer.portManager?.writeDataImmediately(PrintContent.get58Menu(context)) ?: false
-                if (result) {
-                    (requireActivity() as MainActivity).tipsToast(getString(R.string.send_success))
-                } else {
-                    (requireActivity() as MainActivity).tipsDialog(getString(R.string.send_fail))
-                }
-                LogUtils.e("send result", result)
-            } catch (e: IOException) {
-                (requireActivity() as MainActivity).tipsDialog(
-                    """
-                    ${getString(R.string.disconnect)}
-                    ${getString(R.string.print_fail)}${e.message}
-                    """.trimIndent()
-                )
-            } catch (e: Exception) {
-                (requireActivity() as MainActivity).tipsDialog(getString(R.string.print_fail) + e.message)
-            } finally {
-                showToast("打印成功")
-            }
-        })
     }
 }

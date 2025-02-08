@@ -4,11 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.hzy.restaurant.bean.Category
 import com.hzy.restaurant.bean.Order
 import com.hzy.restaurant.bean.Packages
 import com.hzy.restaurant.bean.PackagesProductListCrossRef
 import com.hzy.restaurant.bean.Product
+import com.hzy.restaurant.bean.ProductListConverter
 import com.hzy.restaurant.db.dao.CategoryDao
 import com.hzy.restaurant.db.dao.OrderDao
 import com.hzy.restaurant.db.dao.PackagesDao
@@ -23,6 +25,7 @@ import com.hzy.restaurant.db.dao.ProductDao
     entities = [Order::class, Category::class, Product::class, Packages::class, PackagesProductListCrossRef::class],
     version = 1
 )
+@TypeConverters(ProductListConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getOrderDao(): OrderDao
     abstract fun getCategoryDao(): CategoryDao

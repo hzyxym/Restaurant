@@ -13,7 +13,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.gprinter.bean.PrinterDevices
 import com.gprinter.utils.CallbackListener
+import com.gprinter.utils.LogUtils
 import com.hzy.restaurant.base.BaseActivity
+import com.hzy.restaurant.bean.Order
 import com.hzy.restaurant.databinding.ActivityMainBinding
 import com.hzy.restaurant.mvvm.vm.MainViewModel
 import com.hzy.restaurant.utils.ActivityResultLauncherCompat
@@ -21,13 +23,19 @@ import com.hzy.restaurant.utils.PermissionsHelper
 import com.hzy.restaurant.utils.Utils
 import com.hzy.restaurant.utils.dialog.SingleTipDialog
 import com.hzy.restaurant.utils.ext.initMain
+import com.hzy.restaurant.utils.printer.PrintContent
+import com.hzy.restaurant.utils.printer.ThreadPoolManager
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.IOException
+import java.util.Calendar
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
     private val vm: MainViewModel by viewModels()
-    private val launcher = ActivityResultLauncherCompat(this, ActivityResultContracts.StartActivityForResult())
-    private val permissionsLauncher = ActivityResultLauncherCompat(this, ActivityResultContracts.RequestMultiplePermissions())
+    private val launcher =
+        ActivityResultLauncherCompat(this, ActivityResultContracts.StartActivityForResult())
+    private val permissionsLauncher =
+        ActivityResultLauncherCompat(this, ActivityResultContracts.RequestMultiplePermissions())
     private val permissionsNeeded = PermissionsHelper.getBlePermissionsNeeded().toTypedArray()
     private var permissionsTipDialog: SingleTipDialog? = null
     private var bleDialog: SingleTipDialog? = null
@@ -112,22 +120,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
                             alertDialog.show()
                             return
                         }
+
                         0 -> { //状态正常
                             showToast(getString(R.string.status_normal))
                             return
                         }
+
                         -2 -> { //状态缺纸
                             showToast(getString(R.string.status_out_of_paper))
                             return
                         }
+
                         -3 -> { //状态开盖
                             showToast(getString(R.string.status_open))
                             return
                         }
+
                         -4 -> {
                             showToast(getString(R.string.status_overheated))
                             return
                         }
+
                         -5 -> {
                             showToast(getString(R.string.conn_first))
                             return
@@ -175,9 +188,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
                 if (!isGranted) {
                     if (!shouldShowRequestPermissionRationale(permissionName)) {
                         gotoSystemSetting()
-                        when(permissionName) {
-                            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION -> showToast(getString(R.string.no_permission))
-                            Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT -> showToast(getString(R.string.no_scan_permission))
+                        when (permissionName) {
+                            Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION -> showToast(
+                                getString(R.string.no_permission)
+                            )
+
+                            Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT -> showToast(
+                                getString(R.string.no_scan_permission)
+                            )
                         }
                     } else {
                         showAllPermissionDialog()
@@ -307,4 +325,48 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
         handler.sendMessage(msg)
     }
 
+    /**
+     * 获取每天的起始时间
+     */
+    fun getStartOfDayMillis(): Long {
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        return calendar.timeInMillis
+    }
+
+    fun printMenu(order: Order) {
+        ThreadPoolManager.getInstance().addTask(Runnable {
+            try {
+                if (vm.printer.portManager == null) {
+                    tipsToast(getString(R.string.conn_first))
+                    return@Runnable
+                }
+                val result: Boolean =
+                    vm.printer.portManager?.writeDataImmediately(PrintContent.get58Menu(order))
+                        ?: false
+                if (!result) {
+                    tipsDialog(getString(R.string.send_fail))
+                } else {
+//                    tipsToast(getString(R.string.send_success))
+                }
+                LogUtils.e("send result", result)
+            } catch (e: IOException) {
+                tipsDialog(
+                    """
+                    ${getString(R.string.disconnect)}
+                    ${getString(R.string.print_fail)}${e.message}
+                    """.trimIndent()
+                )
+            } catch (e: Exception) {
+                tipsDialog(getString(R.string.print_fail) + e.message)
+            } finally {
+//                tipsToast(getString(R.string.print_complete))
+                vm.insertOrder(order)
+            }
+        })
+    }
 }

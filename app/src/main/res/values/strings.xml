@@ -122,6 +122,8 @@
     <string name="price">价格</string>
     <string name="total_amount">总金额:</string>
     <string name="cashier">收银员:</string>
-
+    <string name="please_select_product">请选择菜品</string>
+    <string name="please_select_packages">请选择套餐</string>
+    <string name="print_complete">打印完成</string>
 
 </resources>

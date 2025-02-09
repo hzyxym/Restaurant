@@ -68,6 +68,7 @@ class AddProductActivity : BaseActivity<ActivityAddProductBinding>() {
                     this.categoryName = categoryName
                 } ?: run {
                     product = Product(
+                        0,
                         productName,
                         productPrice,
                         isSoldOut,

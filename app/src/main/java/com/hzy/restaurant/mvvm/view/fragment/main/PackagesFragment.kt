@@ -125,8 +125,11 @@ class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
     @SuppressLint("NotifyDataSetChanged")
     override fun createObserver() {
         super.createObserver()
-        vm.getPackagesList.observe(this) {
-            adapter.refreshData(it)
+        vm.getPackagesList.observe(this) { list ->
+            val removeList = list.filter { it.products.isEmpty() }.map { it.packages }
+
+            vm.delPackages(*removeList.toTypedArray())
+            adapter.refreshData(list.filter { it.products.isNotEmpty() })
             adapter.notifyDataSetChanged()
         }
         vm.isConnectPrinter.observe(this) {

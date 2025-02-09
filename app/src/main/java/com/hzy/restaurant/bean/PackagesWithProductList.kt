@@ -13,7 +13,7 @@ data class PackagesWithProductList(
     @Embedded val packages: Packages,
     @Relation(
         parentColumn = "packagesId",
-        entityColumn = "productName",
+        entityColumn = "productId",
         associateBy = Junction(PackagesProductListCrossRef::class)
     )
     val products: List<Product>

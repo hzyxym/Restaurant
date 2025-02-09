@@ -23,7 +23,7 @@ interface PackagesDao {
     suspend fun insert(packages: Packages): Long
 
     @Delete
-    suspend fun delete(packages: Packages)
+    suspend fun delete(vararg packages: Packages)
 
     @Query("SELECT * FROM Packages ORDER BY position")
     fun getAll(): LiveData<List<PackagesWithProductList>>

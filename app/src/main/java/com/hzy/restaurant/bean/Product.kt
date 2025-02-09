@@ -2,6 +2,7 @@ package com.hzy.restaurant.bean
 
 import androidx.room.Entity
 import androidx.room.Ignore
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
@@ -9,9 +10,10 @@ import java.io.Serializable
  * Created by hzy 2025/1/22
  * @Description: 菜品
  */
-@Entity
+@Entity(indices = [Index(value = ["productName"], unique = true)])
 data class Product(
-    @PrimaryKey var productName: String,
+    @PrimaryKey(autoGenerate = true) val productId: Long = 0,
+    var productName: String,
     var marketPrice: Double,
     var isSoldOut: Boolean = false,
     var position: Int,

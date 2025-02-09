@@ -44,7 +44,7 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context): AppDatabase {
-            return Room.databaseBuilder(context, AppDatabase::class.java, "AC012.db")
+            return Room.databaseBuilder(context, AppDatabase::class.java, "Restaurant.db")
 //                .allowMainThreadQueries() // Room 原则上不允许在主线程操作数据库 如果要在主线程操作数据库需要调用该函数
 //                .addMigrations(MIGRATION_1_2)
                 .build()

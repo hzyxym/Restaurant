@@ -11,7 +11,7 @@ import androidx.room.TypeConverters
  * */
 @Entity(tableName = "orders")
 data class Order(
-    @PrimaryKey(autoGenerate = true) val id: Long,
+    @PrimaryKey(autoGenerate = true) val orderId: Long,
     @ColumnInfo(name = "orderNo") val orderNo: Long,
     @ColumnInfo(name = "currentNo") val currentNo: Long,
     @ColumnInfo(name = "createTime") val createTime: Long,

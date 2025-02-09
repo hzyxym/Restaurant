@@ -32,16 +32,16 @@ class PackagesVM @Inject constructor(
             }
             val id = packagesDao.insert(packages)
             selectProduct.forEach {
-                val packagesProductListCrossRef = PackagesProductListCrossRef(id, it.productName)
+                val packagesProductListCrossRef = PackagesProductListCrossRef(id, it.productId)
                 packageProductDao.insertPackagesProductCrossRef(packagesProductListCrossRef)
             }
         }
     }
 
-    //删除分类
-    fun delPackages(packages: Packages) {
+    //删除套餐
+    fun delPackages(vararg packages: Packages) {
         viewModelScope.launch(Dispatchers.Default) {
-            packagesDao.delete(packages)
+            packagesDao.delete(*packages)
         }
     }
 

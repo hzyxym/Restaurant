@@ -39,7 +39,11 @@ class ProductVM @Inject constructor(private val productDao: ProductDao) : ViewMo
             if (product.position == -1) {
                 product.position = (productDao.getMaxPosition() ?: -1) + 1
             }
-            productDao.insert(product)
+            if (product.productId == 0L) {
+                productDao.insert(product)
+            } else {
+                productDao.update(product)
+            }
         }
     }
 
@@ -62,7 +66,7 @@ class ProductVM @Inject constructor(private val productDao: ProductDao) : ViewMo
                 Week.Saturday -> product.isSat = isEnable
                 Week.Sunday -> product.isSun = isEnable
             }
-            productDao.insert(product)
+            productDao.update(product)
         }
     }
 

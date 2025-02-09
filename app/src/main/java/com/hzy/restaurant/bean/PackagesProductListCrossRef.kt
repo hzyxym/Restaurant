@@ -8,7 +8,7 @@ import androidx.room.ForeignKey
  * @Description: 套餐、菜品关联实体
  */
 @Entity(
-    primaryKeys = ["packagesId", "productName"],
+    primaryKeys = ["packagesId", "productId"],
     foreignKeys = [
         ForeignKey(
             entity = Packages::class,
@@ -18,13 +18,13 @@ import androidx.room.ForeignKey
         ),
         ForeignKey(
             entity = Product::class,
-            parentColumns = ["productName"],
-            childColumns = ["productName"],
+            parentColumns = ["productId"],
+            childColumns = ["productId"],
             onDelete = ForeignKey.CASCADE // 启用级联删除
         )
     ]
 )
 data class PackagesProductListCrossRef(
     var packagesId: Long,
-    var productName: String
+    var productId: Long
 )

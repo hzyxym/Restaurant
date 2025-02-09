@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.SPUtils
 import com.hzy.restaurant.app.Constants
 import com.hzy.restaurant.bean.Category
 import com.hzy.restaurant.bean.Order
+import com.hzy.restaurant.bean.Packages
 import com.hzy.restaurant.bean.PackagesWithProductList
 import com.hzy.restaurant.bean.Product
 import com.hzy.restaurant.bean.ProductItem
@@ -45,6 +46,13 @@ class MainViewModel @Inject constructor(
     fun insertOrder(order: Order) {
         viewModelScope.launch(Dispatchers.Default) {
             orderDao.insert(order)
+        }
+    }
+
+    //删除套餐
+    fun delPackages(vararg packages: Packages) {
+        viewModelScope.launch(Dispatchers.Default) {
+            packagesDao.delete(*packages)
         }
     }
 

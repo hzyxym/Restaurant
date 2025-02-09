@@ -77,6 +77,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         return FragmentMainBinding.inflate(inflater)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun initLocal() {
         super.initLocal()
         EventBus.getDefault().register(this)
@@ -119,7 +120,19 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                     val currentNo = (vm.getOrderMaxCurrentNo(mainActivity.getStartOfDayMillis()) ?: 0) + 1
                     val selectedProducts = products.filter { it.productName in selectName }
                     val order = Order(0L, System.currentTimeMillis(), currentNo, System.currentTimeMillis(), selectedProducts)
-                    mainActivity.printMenu(order)
+                    mainActivity.printMenu(order) { result ->
+                        binding.tvPrint.post {
+                            if (result && !vm.isFixed) {
+                                adapter.data.forEach { item ->
+                                    if (item is ProductItem.ProductData) {
+                                        item.product.isCheck = false
+                                    }
+                                }
+                                selectName.clear()
+                                adapter.notifyDataSetChanged()
+                            }
+                        }
+                    }
                 }
             } else {
                 val intent = Intent(requireContext(), BlueToothDeviceActivity::class.java)

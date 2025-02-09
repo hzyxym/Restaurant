@@ -338,7 +338,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
         return calendar.timeInMillis
     }
 
-    fun printMenu(order: Order) {
+    fun printMenu(order: Order, printListener: ((Boolean) -> Unit)? = null) {
         ThreadPoolManager.getInstance().addTask(Runnable {
             try {
                 if (vm.printer.portManager == null) {
@@ -350,11 +350,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
                         ?: false
                 if (!result) {
                     tipsDialog(getString(R.string.send_fail))
+                    printListener?.invoke(false)
                 } else {
 //                    tipsToast(getString(R.string.send_success))
                 }
                 LogUtils.e("send result", result)
             } catch (e: IOException) {
+                printListener?.invoke(false)
                 tipsDialog(
                     """
                     ${getString(R.string.disconnect)}
@@ -362,10 +364,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
                     """.trimIndent()
                 )
             } catch (e: Exception) {
+                printListener?.invoke(false)
                 tipsDialog(getString(R.string.print_fail) + e.message)
             } finally {
-//                tipsToast(getString(R.string.print_complete))
+                tipsToast(getString(R.string.print_complete))
                 vm.insertOrder(order)
+                printListener?.invoke(true)
             }
         })
     }

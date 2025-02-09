@@ -84,7 +84,19 @@ class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
                             it.packages.packagesName,
                             it.packages.packagesPrice
                         )
-                        mainActivity.printMenu(order)
+                        mainActivity.printMenu(order){ result ->
+                            if (result && !vm.isFixed) {
+                                binding.tvPrint.post {
+                                    adapter.data.forEachIndexed { index, packagesWithProductList ->
+                                        if (packagesWithProductList.packages.packagesId == vm.selectPackages?.packages?.packagesId) {
+                                            packagesWithProductList.isCheck = false
+                                            vm.selectPackages = null
+                                            adapter.notifyItemChanged(index)
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     } ?: run {
                         mainActivity.tipsToast((getString(R.string.please_select_packages)))
                     }
@@ -185,36 +197,5 @@ class PackagesFragment : BaseFragment<FragmentPackagesBinding>() {
                 }
             }
         }
-    }
-
-    fun printMenu(order: Order) {
-        ThreadPoolManager.getInstance().addTask(Runnable {
-            try {
-                if (vm.printer.portManager == null) {
-                    (requireActivity() as MainActivity).tipsToast(getString(R.string.conn_first))
-                    return@Runnable
-                }
-                val result: Boolean =
-                    vm.printer.portManager?.writeDataImmediately(PrintContent.get58Menu(order))
-                        ?: false
-                if (result) {
-                    (requireActivity() as MainActivity).tipsToast(getString(R.string.send_success))
-                } else {
-                    (requireActivity() as MainActivity).tipsDialog(getString(R.string.send_fail))
-                }
-                LogUtils.e("send result", result)
-            } catch (e: IOException) {
-                (requireActivity() as MainActivity).tipsDialog(
-                    """
-                    ${getString(R.string.disconnect)}
-                    ${getString(R.string.print_fail)}${e.message}
-                    """.trimIndent()
-                )
-            } catch (e: Exception) {
-                (requireActivity() as MainActivity).tipsDialog(getString(R.string.print_fail) + e.message)
-            } finally {
-                showToast("打印成功")
-            }
-        })
     }
 }

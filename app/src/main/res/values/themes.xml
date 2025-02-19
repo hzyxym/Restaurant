@@ -56,4 +56,9 @@
         <item name="android:dropDownSelector">@color/theme_green</item>
         <item name="android:spinnerStyle">@style/Widget.AppCompat.Spinner.Underlined</item>
     </style>
+    <!--名字自定义-->
+    <style name="CheckBoxTheme">
+        <item name="colorAccent">@color/theme_color</item><!--选中颜色-->
+        <item name="colorControlNormal">@color/white</item><!--未选中颜色-->
+    </style>
 </resources>

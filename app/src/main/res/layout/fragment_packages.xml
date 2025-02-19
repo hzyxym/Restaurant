@@ -39,25 +39,25 @@
         android:id="@+id/tv_print"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_12"
         android:background="@drawable/theme_button_selector"
         android:padding="@dimen/dp_10"
         android:text="@string/print_receipt"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_18"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline1" />
 
     <TextView
         android:id="@+id/tv_select_packages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_12"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_18"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_print"
+        app:layout_constraintEnd_toStartOf="@+id/tv_print"
         app:layout_constraintTop_toTopOf="@+id/guideline1"
         tools:text="套餐1" />
 

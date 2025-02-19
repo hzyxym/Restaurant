@@ -205,7 +205,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), CallbackListener {
             }
             if (PermissionsHelper.isGranted(permissionsNeeded)) {
                 //启动服务
-                showToast("可以连接打印机了")
+                showToast(getString(R.string.connect_device_next_tips))
             }
         }
     }

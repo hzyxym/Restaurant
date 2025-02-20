@@ -46,6 +46,15 @@ class AddProductActivity : BaseActivity<ActivityAddProductBinding>(), OnClickLis
             binding.etProductPrice.setText(product?.marketPrice?.trimZero())
             binding.tvProductCategory.text = product?.categoryName
             binding.isSoldOut.isChecked = product?.isSoldOut ?: false
+
+            binding.checkbox1.isChecked = product?.isMon ?: false
+            binding.checkbox2.isChecked = product?.isTue ?: false
+            binding.checkbox3.isChecked = product?.isWed ?: false
+            binding.checkbox4.isChecked = product?.isThu ?: false
+            binding.checkbox5.isChecked = product?.isFri ?: false
+            binding.checkbox6.isChecked = product?.isSat ?: false
+            binding.checkbox7.isChecked = product?.isSun ?: false
+
         } else {
             binding.tvAdd.text = getString(R.string.add)
             setTitle(getString(R.string.add_product))

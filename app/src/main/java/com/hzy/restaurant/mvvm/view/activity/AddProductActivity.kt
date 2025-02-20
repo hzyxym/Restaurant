@@ -1,6 +1,8 @@
 package com.hzy.restaurant.mvvm.view.activity
 
 import android.content.Intent
+import android.view.View
+import android.view.View.OnClickListener
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.hzy.restaurant.R
@@ -9,6 +11,7 @@ import com.hzy.restaurant.bean.Product
 import com.hzy.restaurant.databinding.ActivityAddProductBinding
 import com.hzy.restaurant.mvvm.vm.ProductVM
 import com.hzy.restaurant.utils.ActivityResultLauncherCompat
+import com.hzy.restaurant.utils.ext.setViewClick
 import com.hzy.restaurant.utils.ext.trimZero
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * @Description:添加菜品
  */
 @AndroidEntryPoint
-class AddProductActivity : BaseActivity<ActivityAddProductBinding>() {
+class AddProductActivity : BaseActivity<ActivityAddProductBinding>(), OnClickListener {
     private val vm by viewModels<ProductVM>()
     private val launcher =
         ActivityResultLauncherCompat(this, ActivityResultContracts.StartActivityForResult())
@@ -81,6 +84,9 @@ class AddProductActivity : BaseActivity<ActivityAddProductBinding>() {
                 this.finish()
             }
         }
+
+        setViewClick(this, binding.tv1, binding.tv2, binding.tv3, binding.tv4, binding.tv5, binding.tv6)
+
     }
 
     private fun verify(): Boolean {
@@ -93,5 +99,33 @@ class AddProductActivity : BaseActivity<ActivityAddProductBinding>() {
             return false
         }
         return true
+    }
+
+    override fun onClick(v: View?) {
+        when (v) {
+            binding.tv1 -> {
+                binding.checkbox1.isChecked = !binding.checkbox1.isChecked
+            }
+
+            binding.tv2 -> {
+                binding.checkbox2.isChecked = !binding.checkbox2.isChecked
+            }
+
+            binding.tv3 -> {
+                binding.checkbox3.isChecked = !binding.checkbox3.isChecked
+            }
+
+            binding.tv4 -> {
+                binding.checkbox4.isChecked = !binding.checkbox4.isChecked
+            }
+
+            binding.tv5 -> {
+                binding.checkbox5.isChecked = !binding.checkbox5.isChecked
+            }
+
+            binding.tv6 -> {
+                binding.checkbox6.isChecked = !binding.checkbox6.isChecked
+            }
+        }
     }
 }

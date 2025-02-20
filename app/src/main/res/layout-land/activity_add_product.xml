@@ -1,231 +1,441 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/theme_bg">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.05" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.48" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.48" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.77" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:text="@string/product_name"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.52" />
 
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_6"
-        android:text="@string/optional"
-        android:textColor="#FFD800"
-        android:textSize="@dimen/sp_10"
-        app:layout_constraintBottom_toBottomOf="@+id/textView1"
-        app:layout_constraintStart_toEndOf="@+id/textView1" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95485634" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_6"
-        android:text="@string/optional"
-        android:textColor="#FFD800"
-        android:textSize="@dimen/sp_10"
-        app:layout_constraintBottom_toBottomOf="@+id/textView1"
-        app:layout_constraintStart_toEndOf="@+id/textView1" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.7" />
 
-    <EditText
-        android:id="@+id/et_product_name"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/corner_edit_bg_shape"
-        android:hint="@string/please_input_product_name"
-        android:inputType="text"
-        android:maxLength="12"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white_20"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_14"
-        android:text="@string/product_price"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/et_product_name" />
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@string/product_name"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_6"
-        android:text="@string/optional"
-        android:textColor="#FFD800"
-        android:textSize="@dimen/sp_10"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
-        app:layout_constraintStart_toEndOf="@+id/textView2" />
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_6"
+            android:text="@string/optional"
+            android:textColor="#FFD800"
+            android:textSize="@dimen/sp_10"
+            app:layout_constraintBottom_toBottomOf="@+id/textView1"
+            app:layout_constraintStart_toEndOf="@+id/textView1" />
 
-    <EditText
-        android:id="@+id/et_product_price"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/corner_edit_bg_shape"
-        android:hint="@string/please_input_product_price"
-        android:inputType="numberDecimal"
-        android:maxLength="12"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white_20"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_6"
+            android:text="@string/optional"
+            android:textColor="#FFD800"
+            android:textSize="@dimen/sp_10"
+            app:layout_constraintBottom_toBottomOf="@+id/textView1"
+            app:layout_constraintStart_toEndOf="@+id/textView1" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:text="@string/product_category"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/et_product_name"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/corner_edit_bg_shape"
+            android:hint="@string/please_input_product_name"
+            android:inputType="text"
+            android:maxLength="12"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_20"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
-    <TextView
-        android:id="@+id/tv_product_category"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/corner_edit_bg_shape"
-        android:gravity="center_vertical"
-        android:hint="@string/select_category"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white_20"
-        android:textSize="14sp"
-        app:drawableEndCompat="@drawable/arrow_right"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@string/product_price"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/et_product_name" />
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_14"
-        android:text="@string/sold_out"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/tv_product_category" />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_6"
+            android:text="@string/optional"
+            android:textColor="#FFD800"
+            android:textSize="@dimen/sp_10"
+            app:layout_constraintBottom_toBottomOf="@+id/textView2"
+            app:layout_constraintStart_toEndOf="@+id/textView2" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/corner_edit_bg_shape"
-        android:gravity="center_vertical"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:text="@string/is_sold_out"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white_20"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        <EditText
+            android:id="@+id/et_product_price"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/corner_edit_bg_shape"
+            android:hint="@string/please_input_product_price"
+            android:inputType="numberDecimal"
+            android:maxLength="12"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_20"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <com.kyleduo.switchbutton.SwitchButton
-        android:id="@+id/is_sold_out"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/corner_edit_bg_shape"
-        android:checked="false"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        app:kswAnimationDuration="300"
-        app:kswBackDrawable="@drawable/ios_back_drawable"
-        app:kswThumbDrawable="@drawable/thumb_20dp"
-        app:kswThumbMarginBottom="2dp"
-        app:kswThumbMarginLeft="3dp"
-        app:kswThumbMarginRight="3dp"
-        app:kswThumbMarginTop="2dp"
-        app:kswThumbRangeRatio="2.1"
-        app:layout_constraintEnd_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@string/product_category"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_add"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="@dimen/dp_10"
-        android:background="@drawable/theme_button_selector"
-        android:gravity="center"
-        android:text="@string/add"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_18"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+        <TextView
+            android:id="@+id/tv_product_category"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/corner_edit_bg_shape"
+            android:gravity="center_vertical"
+            android:hint="@string/select_category"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_20"
+            android:textSize="14sp"
+            app:drawableEndCompat="@drawable/arrow_right"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.52" />
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@string/sold_out"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/et_product_price" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.95485634" />
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/corner_edit_bg_shape"
+            android:gravity="center_vertical"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:text="@string/is_sold_out"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_20"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/textView7"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.kyleduo.switchbutton.SwitchButton
+            android:id="@+id/is_sold_out"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/corner_edit_bg_shape"
+            android:checked="false"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            app:kswAnimationDuration="300"
+            app:kswBackDrawable="@drawable/ios_back_drawable"
+            app:kswThumbDrawable="@drawable/thumb_20dp"
+            app:kswThumbMarginBottom="2dp"
+            app:kswThumbMarginLeft="3dp"
+            app:kswThumbMarginRight="3dp"
+            app:kswThumbMarginTop="2dp"
+            app:kswThumbRangeRatio="2.1"
+            app:layout_constraintEnd_toEndOf="@+id/textView8"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@string/show_week"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/tv_product_category" />
+
+        <androidx.constraintlayout.helper.widget.Layer
+            android:id="@+id/layer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/corner_edit_bg_shape"
+            android:paddingStart="@dimen/dp_4"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingEnd="@dimen/dp_4"
+            android:paddingBottom="@dimen/dp_6"
+            app:constraint_referenced_ids="checkbox1,checkbox2,checkbox3,checkbox4,checkbox5,checkbox6,checkbox7,tv_1,tv_2,tv_3,tv_4,tv_5,tv_6,tv_7"
+            app:layout_constraintBottom_toBottomOf="@+id/checkbox1"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/guideline1"
+            app:layout_constraintTop_toTopOf="@+id/tv_1" />
+
+        <CheckBox
+            android:id="@+id/checkbox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="34dp"
+            android:textColor="@color/white"
+            android:theme="@style/CheckBoxTheme"
+            app:layout_constraintEnd_toStartOf="@+id/checkbox2"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+        <CheckBox
+            android:id="@+id/checkbox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:theme="@style/CheckBoxTheme"
+            app:layout_constraintBottom_toBottomOf="@+id/checkbox1"
+            app:layout_constraintEnd_toStartOf="@+id/checkbox3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/checkbox1"
+            app:layout_constraintTop_toTopOf="@+id/checkbox1" />
+
+        <CheckBox
+            android:id="@+id/checkbox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:theme="@style/CheckBoxTheme"
+            app:layout_constraintBottom_toBottomOf="@+id/checkbox2"
+            app:layout_constraintEnd_toStartOf="@+id/checkbox4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/checkbox2"
+            app:layout_constraintTop_toTopOf="@+id/checkbox2" />
+
+        <CheckBox
+            android:id="@+id/checkbox4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:theme="@style/CheckBoxTheme"
+            app:layout_constraintBottom_toBottomOf="@+id/checkbox3"
+            app:layout_constraintEnd_toStartOf="@+id/checkbox5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/checkbox3"
+            app:layout_constraintTop_toTopOf="@+id/checkbox3" />
+
+        <CheckBox
+            android:id="@+id/checkbox5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:theme="@style/CheckBoxTheme"
+            app:layout_constraintBottom_toBottomOf="@+id/checkbox4"
+            app:layout_constraintEnd_toStartOf="@+id/checkbox6"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/checkbox4"
+            app:layout_constraintTop_toTopOf="@+id/checkbox4" />
+
+        <CheckBox
+            android:id="@+id/checkbox6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:theme="@style/CheckBoxTheme"
+            app:layout_constraintBottom_toBottomOf="@+id/checkbox5"
+            app:layout_constraintEnd_toStartOf="@+id/checkbox7"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/checkbox5"
+            app:layout_constraintTop_toTopOf="@+id/checkbox5" />
+
+        <CheckBox
+            android:id="@+id/checkbox7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:theme="@style/CheckBoxTheme"
+            app:layout_constraintBottom_toBottomOf="@+id/checkbox6"
+            app:layout_constraintEnd_toEndOf="@+id/guideline4"
+            app:layout_constraintStart_toEndOf="@+id/checkbox6"
+            app:layout_constraintTop_toTopOf="@+id/checkbox6" />
+
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingEnd="@dimen/dp_6"
+            android:text="@string/monday"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/checkbox1"
+            app:layout_constraintEnd_toEndOf="@+id/checkbox1"
+            app:layout_constraintStart_toStartOf="@+id/checkbox1" />
+
+        <TextView
+            android:id="@+id/tv_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingEnd="@dimen/dp_6"
+            android:text="@string/tuesday"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/checkbox2"
+            app:layout_constraintEnd_toEndOf="@+id/checkbox2"
+            app:layout_constraintStart_toStartOf="@+id/checkbox2" />
+
+        <TextView
+            android:id="@+id/tv_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingEnd="@dimen/dp_6"
+            android:text="@string/wednesday"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/checkbox3"
+            app:layout_constraintEnd_toEndOf="@+id/checkbox3"
+            app:layout_constraintStart_toStartOf="@+id/checkbox3" />
+
+        <TextView
+            android:id="@+id/tv_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingEnd="@dimen/dp_6"
+            android:text="@string/thursday"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/checkbox4"
+            app:layout_constraintEnd_toEndOf="@+id/checkbox4"
+            app:layout_constraintStart_toStartOf="@+id/checkbox4" />
+
+        <TextView
+            android:id="@+id/tv_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingEnd="@dimen/dp_6"
+            android:text="@string/friday"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/checkbox5"
+            app:layout_constraintEnd_toEndOf="@+id/checkbox5"
+            app:layout_constraintStart_toStartOf="@+id/checkbox5" />
+
+        <TextView
+            android:id="@+id/tv_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingEnd="@dimen/dp_6"
+            android:text="@string/saturday"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/checkbox6"
+            app:layout_constraintEnd_toEndOf="@+id/checkbox6"
+            app:layout_constraintStart_toStartOf="@+id/checkbox6" />
+
+        <TextView
+            android:id="@+id/tv_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingEnd="@dimen/dp_6"
+            android:text="@string/sunday"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/checkbox7"
+            app:layout_constraintEnd_toEndOf="@+id/checkbox7"
+            app:layout_constraintStart_toStartOf="@+id/checkbox7" />
+
+
+        <TextView
+            android:id="@+id/tv_add"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/theme_button_selector"
+            android:gravity="center"
+            android:text="@string/add"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_18"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView8"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

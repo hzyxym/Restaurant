@@ -12,11 +12,11 @@
     <string name="packages">套餐</string>
     <string name="setting">设置</string>
     <string name="printer">打印机</string>
-    <string name="category_manager">分类管理</string>
-    <string name="product_manager">菜品管理</string>
-    <string name="order_management">订单管理</string>
-    <string name="week_product">本周菜谱</string>
-    <string name="fixed_package">固定套餐</string>
+    <string name="category_manager">分类</string>
+    <string name="product_manager">菜单</string>
+    <string name="order_management">订单</string>
+    <string name="week_product">周谱</string>
+    <string name="fixed_package">套餐</string>
     <string name="please_enter_category">请输入分类名称</string>
     <string name="add_category">添加分类</string>
     <string name="edit_category">编辑分类</string>
@@ -85,8 +85,8 @@
     <string name="delete_sure_tips">确认删除“%s”？</string>
     <string name="all">所有</string>
     <string name="show_category">显示分类</string>
-    <string name="show_week">一周菜单</string>
-    <string name="fixed_product">固定选菜</string>
+    <string name="show_week">显示周谱</string>
+    <string name="fixed_product">打印后清除选项</string>
     <string name="print_receipt">打印小票</string>
     <string name="blue_label">蓝牙设备</string>
     <string name="paired">已配对</string>

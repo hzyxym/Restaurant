@@ -88,6 +88,13 @@ class AddProductActivity : BaseActivity<ActivityAddProductBinding>(), OnClickLis
                         categoryName
                     )
                 }
+                product?.isMon = binding.checkbox1.isChecked
+                product?.isTue = binding.checkbox2.isChecked
+                product?.isWed = binding.checkbox3.isChecked
+                product?.isThu = binding.checkbox4.isChecked
+                product?.isFri = binding.checkbox5.isChecked
+                product?.isSat = binding.checkbox6.isChecked
+                product?.isSun = binding.checkbox7.isChecked
                 vm.addProduct(product!!)
                 setResult(RESULT_OK)
                 this.finish()

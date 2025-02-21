@@ -45,7 +45,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         val isWeek = SPUtils.getInstance().getBoolean(Constants.IS_WEEK, false)
         binding.isCategory.isChecked = isCategory
         binding.isWeek.isChecked = isWeek
-        binding.isFixed.isChecked = vm.isFixed
+        binding.isFixed.isChecked = !vm.isFixed
 
         binding.tvDevice.setOnClickListener {
             val intent = Intent(requireContext(), BlueToothDeviceActivity::class.java)
@@ -74,7 +74,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             EventBus.getDefault().post(MsgEvent<Any>(Events.REFRESH_MAIN_PRODUCT))
         }
         binding.isFixed.setOnCheckedChangeListener { _, isCheck ->
-            SPUtils.getInstance().put(Constants.IS_FIXED, isCheck)
+            SPUtils.getInstance().put(Constants.IS_FIXED, !isCheck)
             vm.isFixed = isCheck
         }
 

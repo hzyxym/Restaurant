@@ -46,6 +46,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         binding.isCategory.isChecked = isCategory
         binding.isWeek.isChecked = isWeek
         binding.isFixed.isChecked = !vm.isFixed
+        binding.isShowPosition.isChecked = vm.isShowPosition
 
         binding.tvDevice.setOnClickListener {
             val intent = Intent(requireContext(), BlueToothDeviceActivity::class.java)
@@ -76,6 +77,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
         binding.isFixed.setOnCheckedChangeListener { _, isCheck ->
             SPUtils.getInstance().put(Constants.IS_FIXED, !isCheck)
             vm.isFixed = isCheck
+        }
+        binding.isShowPosition.setOnCheckedChangeListener { _, isCheck ->
+            SPUtils.getInstance().put(Constants.IS_SHOW_POSITION, isCheck)
+            vm.isShowPosition = isCheck
         }
 
         binding.tvCategory.setOnClickListener {

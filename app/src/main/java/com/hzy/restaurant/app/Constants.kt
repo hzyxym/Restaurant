@@ -10,4 +10,5 @@ object Constants {
     const val IS_CATEGORY: String = "isCategory"
     const val IS_WEEK: String = "isWeek"
     const val IS_FIXED: String = "isFixed"
+    const val IS_SHOW_POSITION: String = "isShowPosition"
 }

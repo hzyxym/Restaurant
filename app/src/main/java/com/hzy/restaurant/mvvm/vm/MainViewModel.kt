@@ -38,6 +38,7 @@ class MainViewModel @Inject constructor(
     var isConnectPrinter = MutableLiveData(false)
     var position = 0
     var isFixed = SPUtils.getInstance().getBoolean(Constants.IS_FIXED, false)
+    var isShowPosition = SPUtils.getInstance().getBoolean(Constants.IS_SHOW_POSITION, true)
     val productList = productDao.getAll()
     val categoryList = categoryDao.getAll()
     val getPackagesList = packagesDao.getAll()

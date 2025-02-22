@@ -19,7 +19,6 @@ import com.blankj.utilcode.util.SPUtils
 import com.gprinter.bean.PrinterDevices
 import com.gprinter.utils.Command
 import com.gprinter.utils.ConnMethod
-import com.gprinter.utils.LogUtils
 import com.gprinter.utils.SDKUtils
 import com.hzy.restaurant.MainActivity
 import com.hzy.restaurant.R
@@ -40,15 +39,12 @@ import com.hzy.restaurant.mvvm.vm.MainViewModel
 import com.hzy.restaurant.utils.ActivityResultLauncherCompat
 import com.hzy.restaurant.utils.Events
 import com.hzy.restaurant.utils.ext.trimZero
-import com.hzy.restaurant.utils.printer.PrintContent
-import com.hzy.restaurant.utils.printer.ThreadPoolManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.io.IOException
 import java.util.Calendar
 
 /**
@@ -300,7 +296,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
             @SuppressLint("SetTextI18n")
             fun bind(product: Product) {
-                binding.tvProductName.text = product.productName
+                val rawPosition = data.filterIsInstance<ProductItem.ProductData>().indexOf(ProductItem.ProductData(product))
+                if (vm.isShowPosition) {
+                    binding.tvProductName.text = "(${rawPosition + 1}) ${product.productName}"
+                } else {
+                    binding.tvProductName.text = product.productName
+                }
+
                 binding.tvPrice.text = "￥${product.marketPrice.trimZero()}"
                 binding.checkBox.isChecked = product.isCheck
 //                binding.itemProduct.setBackgroundResource(if (product.isCheck) R.drawable.dialog_corner_bg_green_edge_shape else R.drawable.dialog_corner_bg_shape )
@@ -332,8 +334,14 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
 
         inner class SelectProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val binding = SelectItemBinding.bind(itemView)
+            @SuppressLint("SetTextI18n")
             fun bind(name: String) {
-                binding.tvName.text = name
+                if (vm.isShowPosition) {
+                    val rawPosition = products.indexOfFirst { it.productName == name }
+                    binding.tvName.text = "(${rawPosition + 1}) $name"
+                } else {
+                    binding.tvName.text = name
+                }
             }
         }
     }

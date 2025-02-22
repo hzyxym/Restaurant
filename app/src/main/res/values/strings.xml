@@ -134,5 +134,6 @@
     <string name="please_select_packages">请选择套餐</string>
     <string name="print_complete">打印完成</string>
     <string name="connect_device_next_tips">可以连接打印机了</string>
+    <string name="is_show_position">显示菜单序号</string>
 
 </resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
+
+    <TextView
+        android:id="@+id/month"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/accent_white_selected"
+        android:gravity="center"
+        android:textColor="@color/gray_white_selected"
+        tools:text="9" />
+
+    <ImageView
+        android:id="@+id/blue_circle"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        android:layout_gravity="start"
+        android:layout_margin="5dp"
+        android:src="@drawable/circle_selector"
+        android:importantForAccessibility="no" />
+
+</FrameLayout>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:elevation="0dp"
+    app:cardBackgroundColor="#F5F5F5"
+    app:cardCornerRadius="5dp">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="#333945"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Left"
+                android:padding="10dp"
+                android:src="@drawable/left_cal_enable"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/monthDay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/theme_color"
+                android:textSize="18sp"
+                tools:text="04-27" />
+
+            <ImageView
+                android:id="@+id/right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="Right"
+                android:padding="10dp"
+                android:src="@drawable/right_cal_enable"
+                tools:ignore="HardcodedText" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#ECECEC"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/week7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/week7"
+                android:textColor="#292929" />
+
+            <TextView
+                android:id="@+id/week1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/week1"
+                android:textColor="#292929" />
+
+            <TextView
+                android:id="@+id/week2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/week2"
+                android:textColor="#292929" />
+
+            <TextView
+                android:id="@+id/week3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/week3"
+                android:textColor="#292929" />
+
+            <TextView
+                android:id="@+id/week4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/week4"
+                android:textColor="#292929" />
+
+            <TextView
+                android:id="@+id/week5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/week5"
+                android:textColor="#292929" />
+
+            <TextView
+                android:id="@+id/week6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/week6"
+                android:textColor="#292929" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:id="@+id/all_rl"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/day_all"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/accent_white_selected"
+                android:gravity="center"
+                android:text="@string/all"
+                android:textColor="@color/gray_white_selected" />
+
+            <ImageView
+                android:id="@+id/status_all"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/day_status_select"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

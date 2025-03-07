@@ -48,6 +48,14 @@
     <string name="saturday">周六</string>
     <string name="sunday">周日</string>
 
+    <string name="week7">日</string>
+    <string name="week1">一</string>
+    <string name="week2">二</string>
+    <string name="week3">三</string>
+    <string name="week4">四</string>
+    <string name="week5">五</string>
+    <string name="week6">六</string>
+
 <!--    <string name="monday">星期一</string>-->
 <!--    <string name="tuesday">星期二</string>-->
 <!--    <string name="wednesday">星期三</string>-->
@@ -135,5 +143,6 @@
     <string name="print_complete">打印完成</string>
     <string name="connect_device_next_tips">可以连接打印机了</string>
     <string name="is_show_position">显示菜单序号</string>
+    <string name="no_data">暂无数据</string>
 
 </resources>

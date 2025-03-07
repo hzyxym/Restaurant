@@ -19,6 +19,7 @@ import com.hzy.restaurant.bean.event.MsgEvent
 import com.hzy.restaurant.databinding.FragmentSettingsBinding
 import com.hzy.restaurant.mvvm.view.activity.BlueToothDeviceActivity
 import com.hzy.restaurant.mvvm.view.activity.CategoryManagerActivity
+import com.hzy.restaurant.mvvm.view.activity.OrderActivity
 import com.hzy.restaurant.mvvm.view.activity.PackagesManagerActivity
 import com.hzy.restaurant.mvvm.view.activity.ProductActivity
 import com.hzy.restaurant.mvvm.view.activity.WeekProductActivity
@@ -100,6 +101,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
         binding.tvPackages.setOnClickListener {
             val intent = Intent(requireContext(), PackagesManagerActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.tvOrder.setOnClickListener {
+            val intent = Intent(requireContext(), OrderActivity::class.java)
             startActivity(intent)
         }
     }

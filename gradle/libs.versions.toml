@@ -1,5 +1,5 @@
 [versions]
-agp = "8.8.0"
+agp = "8.7.3"
 gson = "2.10.1"
 kotlin = "2.0.0"
 coreKtx = "1.13.1"
@@ -24,7 +24,7 @@ kyleduo = "2.1.0"
 material = "1.12.0"
 lifecycleViewmodelKtx = "2.8.7"
 navigationFragmentKtx = "2.8.4"
-
+baserecyclerviewadapterhelper = "4.1.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -61,6 +61,7 @@ compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide
 bigimageviewpager = { module = "com.github.SherlockGougou:BigImageViewPager", version.ref = "bigimageviewpager" }
 switchbutton = { module = "com.kyleduo.switchbutton:library", version.ref = "kyleduo" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+baserecyclerviewadapterhelper = { module = "io.github.cymchad:BaseRecyclerViewAdapterHelper4", version.ref = "baserecyclerviewadapterhelper" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

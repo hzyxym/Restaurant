@@ -89,6 +89,14 @@ public class TimeUtils {
         simpleDateFormat.applyPattern("mm");
         return simpleDateFormat.format(new Date(time));
     }
+    /**
+     * 分
+     */
+    public static String getMMTime(long time) {
+        SimpleDateFormat simpleDateFormat = (SimpleDateFormat) SimpleDateFormat.getInstance();
+        simpleDateFormat.applyPattern("MM");
+        return simpleDateFormat.format(new Date(time));
+    }
 
     /**
      * 年月日
